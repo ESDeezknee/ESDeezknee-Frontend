@@ -4,6 +4,8 @@
   </div>
 </template>
 
+<script></script>
+
 <style>
 @media (min-width: 1024px) {
   .about {
