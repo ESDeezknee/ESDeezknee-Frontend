@@ -1,28 +1,33 @@
 <template>
-
-    <div class="container ">
-      <div class="row justify-content-center align-items-center" style="height: 100vh;">
-        <div class="col-sm-6">
-          <div class="mobile-phone bg-white">
+        <MobileTemplate>
             <!-- content of mobile phone -->
             <div class="mobile-header" style="display: flex;">
                 <div class="header-left">
-                <h2>MISSIONS</h2>
+                <h2>Missions</h2>
                 </div>
                 <div class="header-right">
-                    <img src="../assets/logo.svg" style="border-radius: 50%; width: 50px; height: 50px; border: 1px solid #ccc" alt="User Logo">
+                <lottie-player src=https://assets6.lottiefiles.com/packages/lf20_rkkqswce.json  background="transparent" speed="1" style="width: 50px; height:50px;" loop autoplay></lottie-player>
                 </div>
            </div>
-
-            <button class="btn fw-semibold mb-2 w-100" 
-            style="color: black; border: 1px solid #ccc; font-size:small"
-            onmouseover="this.style.backgroundColor='#f1f5f9';" 
-            onmouseout="this.style.backgroundColor='#fff';" 
-            @click="viewActiveChallenges">View Active Challenges</button>
+           
+           <div class="button-group" style="display: flex; justify-content: space-between;">
+            <router-link to="/active-challenges" class="btn fw-semibold mb-2" 
+                style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small; flex: 1; margin-right: 5px;"
+                onmouseover="this.style.backgroundColor='#f1f5f9';" 
+                onmouseout="this.style.backgroundColor='#fff';">
+                My Challenges
+            </router-link>
+            <router-link to="/redemption" class="btn fw-semibold mb-2" 
+                style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small; flex: 1; margin-left: 5px;"
+                onmouseover="this.style.backgroundColor='#f1f5f9';" 
+                onmouseout="this.style.backgroundColor='#fff';">
+                Points & Rewards
+            </router-link>
+            </div>
 
 
             <div class="mission-cards">
-                <span class="fw-semibold" style="font-size:x-small; color:#6B7280">FEATURED MISSIONS:</span>
+                <span class="fw-semibold" style="font-size:x-small; color:#6B7280">FEATURED CHALLENGES:</span>
                 <div class="row flex-row">
                 <div class="col-12" v-for="mission in featuredMissions" :key="mission.id">
                     <div class="card border border-0">
@@ -32,73 +37,62 @@
                         <span style="font-size:x-small" ><strong>Difficulty:</strong> {{ mission.difficulty }}</span><br>
                         <span style="font-size:x-small"><strong>Duration:</strong> {{ mission.duration }}</span><br>
                         <span style="font-size:x-small"><strong>Points:</strong> {{ mission.award_points }}</span>
-                        <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="joinChallenge(mission.id)">Join Challenge</button>
+                        <!-- <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="joinChallenge(mission.mission_id)">Join Challenge</button> -->
+
+                        <button
+                        :class="['btn w-100 mt-2', mission.joined ? 'btn-secondary' : 'btn-success']"
+                        style="font-size:small;"
+                        @click="joinChallenge(mission.mission_id, mission)"
+                        :disabled="mission.joined"
+                        >
+                        {{ mission.joined ? 'Challenge Joined' : 'Join Challenge' }}
+                        </button>
+
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+        </MobileTemplate>
   </template>
 
 <script>
 import axios from "axios";
+import MobileTemplate from "../components/MobileTemplate.vue";
+import "@lottiefiles/lottie-player";
+
 
 export default {
-  data() {
-    return {
-      featuredMissions: [
-        {
-          id: 1,
-          name: 'Mission 1',
-          description: 'Complete the first mission',
-          difficulty: 'Easy',
-          duration: '1 hour',
-          points: 100,
-        },
-        {
-          id: 2,
-          name: 'Mission 2',
-          description: 'Complete the second mission',
-          difficulty: 'Medium',
-          duration: '2 hours',
-          points: 200,
-        },
-        {
-          id: 3,
-          name: 'Mission 3',
-          description: 'Complete the third mission',
-          difficulty: 'Hard',
-          duration: '4 hours',
-          points: 500,
-        },
-      ],
-    };
-  },
-  created() {
-    this.getMissions();
-  },
-  methods: {
-    getMissions() {
-        const apiUrl = "http://127.0.0.1:6300/mission/active"
-
-        axios.get(apiUrl).then((response) => {
-            this.featuredMissions = response.data.data.missions;
-            // console.log(response.data.data);
-        }).catch((error) => {
-            console.log(error);
-        });
-    },
-    joinChallenge(id) {
-      // logic to join the challenge with the specified id
-      console.log('Joining challenge with ID:', id);
-    },
+    name: 'MyComponent',
+    components: {
+        MobileTemplate
   },
 
+    data() {
+        return {
+            featuredMissions: [],
+        };
+    },
+    created() {
+        this.getMissions();
+    },
+    methods: {
+        getMissions() {
+            const apiUrl = "http://127.0.0.1:6300/mission/active";
+            axios.get(apiUrl).then((response) => {
+                this.featuredMissions = response.data.data.missions;
+                // console.log(response.data.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        joinChallenge(id,mission) {
+            // logic to join the challenge with the specified id
+            console.log("Joining challenge with ID:", mission.mission_id);
+            mission.joined = true;
+        },
+        
+    }
 };
 </script>
 
@@ -136,7 +130,7 @@ h2 {
 }
 
 .card-body:hover {
-  opacity: 0.9;
+  opacity: 0.8;
   transition: opacity 0.2s ease;
 }
 

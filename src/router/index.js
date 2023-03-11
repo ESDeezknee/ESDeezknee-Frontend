@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ChallengeView from '../views/ChallengeView.vue'
+import ActiveChallengesView from '../views/ActiveChallenges.vue' 
+import RedemptionView from '../views/RedemptionView.vue'
 
 
 const router = createRouter({
@@ -24,6 +26,16 @@ const router = createRouter({
       name: 'challenge',
       component: ChallengeView
     },
+    {
+      path: '/active-challenges',
+      name: 'active-challenges',
+      component: ActiveChallengesView
+    },
+    {
+      path: '/redemption',
+      name: 'redemption',
+      component: RedemptionView
+    }
   ]
 })
 
