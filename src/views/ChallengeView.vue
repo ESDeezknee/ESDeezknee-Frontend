@@ -63,11 +63,10 @@ import "@lottiefiles/lottie-player";
 
 
 export default {
-    name: 'MyComponent',
+    name: 'ChallengeView',
     components: {
         MobileTemplate
   },
-
     data() {
         return {
             featuredMissions: [],
@@ -78,12 +77,12 @@ export default {
     },
     methods: {
         createChallenge(mission_id) {
-              const url1 = "http://127.0.0.1:6302/challenge";
+              const apiUrl = "http://127.0.0.1:6302/challenge";
               const body = {
-                  "mission_id": mission_id, // need to change this make it dynamic when user clicks on indiv challenge
+                  "mission_id": mission_id,
                   "account_id": 2,
               }
-              axios.post(url1, body).then((response) => {
+              axios.post(apiUrl, body).then((response) => {
                   console.log(response.data.data);
                   mission.joined=true;
               }).catch((error) => {
@@ -99,12 +98,6 @@ export default {
                 console.log(error);
             });
         },
-        // joinChallenge(id,mission) {
-        //     // logic to join the challenge with the specified id
-        //     console.log("Joining challenge with ID:", mission.mission_id);
-        //     mission.joined = true;
-        // },
-        
     }
 };
 </script>
