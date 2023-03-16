@@ -12,7 +12,7 @@
       </div>
 
       <div class="mission-cards">
-          <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY ACTIVE CHALLENGES:</span>
+          <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY CHALLENGES:</span>
           <div class="row flex-row">
           <div class="col-12" v-for="mission in missions" :key="mission.id">
               <div class="card border border-0">
@@ -65,6 +65,7 @@ export default {
         this.getChallenges();
     },
     methods: {
+        
         getMissions() {
             const apiUrl = "http://127.0.0.1:6300/mission/active";
             axios.get(apiUrl).then((response) => {

@@ -24,9 +24,17 @@
             <div class="card-body bg-light">
                 <span class="card-title fw-bold" style="font-size:small">{{ reward.name }}</span><br>
                 <span class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">{{ reward.description }}</span><br>
-                <span style="font-size:x-small" ><strong>Points:</strong> {{ reward.exchange_points }}</span><br>
-                <span style="font-size:x-small"><strong>Quantity:</strong> {{ reward.quantity }}</span><br>
-                <img :src="reward.image_url" alt="Image" style="height: 30px; vertical-align: middle;" class="mt-2">
+                <span style="font-size:x-small;" ><strong>Points:</strong> {{ reward.exchange_points }}, <strong>Quantity:</strong> {{ reward.quantity }} </span><br>
+                <!-- <span style="font-size:x-small;"><strong>Quantity:</strong> {{ reward.quantity }}</span><br> -->
+                <img :src="reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
+                <hr>
+                <button class="btn btn-success w-100 mt-2" style="font-size:small;"
+                @click=" createRedemption(reward.account_id, reward.reward_id);
+                getRedemptionStatus(reward.account_id, reward.reward_id)">
+                
+                {{ mission.joined ? 'Challenge Joined' : 'Join Challenge' }}
+              
+              </button>
             </div>
             </div>
         </div>
@@ -70,7 +78,7 @@ export default {
       const apiUrl = "http://127.0.0.1:6303/reward";
       axios.get(apiUrl).then((response) => {
         this.rewards = response.data.data.rewards;
-        console.log(this.rewards);
+        // console.log(this.rewards);
       }).catch((error) => {
         console.log(error);
       });
@@ -79,11 +87,43 @@ export default {
       const apiUrl = "http://127.0.0.1:6301/loyalty/1";
       axios.get(apiUrl).then((response) => {
         this.loyalties = response.data.data;
-        console.log(this.loyalties);
+        // console.log(this.loyalties);
       }).catch((error) => {
         console.log(error);
       });
     },
+
+    createRedemption(account_id, reward_id) {
+              const url = "http://127.0.0.1:6304/redemption";
+              const body = {
+                  "reward_id": reward_id,
+                  "account_id": 1,
+              }
+              axios.post(url, body)
+              .then((response) => {
+                  console.log(response.data.data);
+              }).catch((error) => {
+                  console.log(error);
+              });
+    },
+
+    getRedemptionStatus(account_id, reward_id) {
+      const url = "http://127.0.0.1:6304/redemption/account/" + account_id;
+      const body = {
+          "reward_id": reward_id,
+          "account_id": 1,
+      }
+      axios.get(url, body)
+      .then((response) => {
+          // console.log(response.data.data);
+          this.status = response.data.data.redemptions.status
+          console.log(this.status);
+          
+      }).catch((error) => {
+          console.log(error);
+      });
+    },
+
   }
 }
 

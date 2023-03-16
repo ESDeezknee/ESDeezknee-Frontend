@@ -42,7 +42,7 @@
                         <button
                         :class="['btn w-100 mt-2', mission.joined ? 'btn-secondary' : 'btn-success']"
                         style="font-size:small;"
-                        @click="joinChallenge(mission.mission_id, mission)"
+                        @click=" createChallenge(mission.mission_id)"
                         :disabled="mission.joined"
                         >
                         {{ mission.joined ? 'Challenge Joined' : 'Join Challenge' }}
@@ -77,6 +77,19 @@ export default {
         this.getMissions();
     },
     methods: {
+        createChallenge(mission_id) {
+              const url1 = "http://127.0.0.1:6302/challenge";
+              const body = {
+                  "mission_id": mission_id, // need to change this make it dynamic when user clicks on indiv challenge
+                  "account_id": 2,
+              }
+              axios.post(url1, body).then((response) => {
+                  console.log(response.data.data);
+                  mission.joined=true;
+              }).catch((error) => {
+                  console.log(error);
+              });
+          },
         getMissions() {
             const apiUrl = "http://127.0.0.1:6300/mission/active";
             axios.get(apiUrl).then((response) => {
@@ -86,11 +99,11 @@ export default {
                 console.log(error);
             });
         },
-        joinChallenge(id,mission) {
-            // logic to join the challenge with the specified id
-            console.log("Joining challenge with ID:", mission.mission_id);
-            mission.joined = true;
-        },
+        // joinChallenge(id,mission) {
+        //     // logic to join the challenge with the specified id
+        //     console.log("Joining challenge with ID:", mission.mission_id);
+        //     mission.joined = true;
+        // },
         
     }
 };
