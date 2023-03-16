@@ -31,10 +31,8 @@
                 <button class="btn btn-success w-100 mt-2" style="font-size:small;"
                 @click=" createRedemption(reward.account_id, reward.reward_id);
                 getRedemptionStatus(reward.account_id, reward.reward_id)">
-                
-                {{ mission.joined ? 'Challenge Joined' : 'Join Challenge' }}
-              
-              </button>
+                  Redeem Reward              
+                </button>
             </div>
             </div>
         </div>
@@ -75,7 +73,7 @@ export default {
   },
   methods: {
     getRewards() {
-      const apiUrl = "http://127.0.0.1:6303/reward";
+      const apiUrl = "http://127.0.0.1:6303/reward/active";
       axios.get(apiUrl).then((response) => {
         this.rewards = response.data.data.rewards;
         // console.log(this.rewards);
@@ -97,7 +95,7 @@ export default {
               const url = "http://127.0.0.1:6304/redemption";
               const body = {
                   "reward_id": reward_id,
-                  "account_id": 1,
+                  "account_id": 2,
               }
               axios.post(url, body)
               .then((response) => {
@@ -111,7 +109,7 @@ export default {
       const url = "http://127.0.0.1:6304/redemption/account/" + account_id;
       const body = {
           "reward_id": reward_id,
-          "account_id": 1,
+          "account_id": 2,
       }
       axios.get(url, body)
       .then((response) => {
