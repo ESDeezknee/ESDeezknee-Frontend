@@ -17,7 +17,7 @@
                 onmouseout="this.style.backgroundColor='#fff';">
                 My Challenges
             </router-link>
-            <router-link to="/redemption" class="btn fw-semibold mb-2" 
+            <router-link to="/reward" class="btn fw-semibold mb-2" 
                 style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small; flex: 1; margin-left: 5px;"
                 onmouseover="this.style.backgroundColor='#f1f5f9';" 
                 onmouseout="this.style.backgroundColor='#fff';">
