@@ -84,7 +84,7 @@ export default {
       });
     },
     getLoyalties() {
-      const apiUrl = "http://127.0.0.1:6301/loyalty/1";
+      const apiUrl = "http://127.0.0.1:6301/loyalty/2";
       axios.get(apiUrl).then((response) => {
         this.loyalties = response.data.data;
         // console.log(this.loyalties);

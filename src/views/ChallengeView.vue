@@ -93,7 +93,6 @@ export default {
             const apiUrl = "http://127.0.0.1:6300/mission/active";
             axios.get(apiUrl).then((response) => {
                 this.featuredMissions = response.data.data.missions;
-                // console.log(response.data.data);
             }).catch((error) => {
                 console.log(error);
             });

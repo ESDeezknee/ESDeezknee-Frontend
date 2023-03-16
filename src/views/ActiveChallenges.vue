@@ -73,7 +73,7 @@ export default {
       });
     },
     getChallenges() {
-      const apiUrl = "http://127.0.0.1:6302/challenge/account/1";
+      const apiUrl = "http://127.0.0.1:6302/challenge/account/2";
       axios.get(apiUrl).then((response) => {
         const challenges = response.data.data.challenges;
 
