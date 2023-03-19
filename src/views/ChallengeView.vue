@@ -17,7 +17,7 @@
                 onmouseout="this.style.backgroundColor='#fff';">
                 My Challenges
             </router-link>
-            <router-link to="/redemption" class="btn fw-semibold mb-2" 
+            <router-link to="/reward" class="btn fw-semibold mb-2" 
                 style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small; flex: 1; margin-left: 5px;"
                 onmouseover="this.style.backgroundColor='#f1f5f9';" 
                 onmouseout="this.style.backgroundColor='#fff';">
@@ -63,11 +63,10 @@ import "@lottiefiles/lottie-player";
 
 
 export default {
-    name: 'MyComponent',
+    name: 'ChallengeView',
     components: {
         MobileTemplate
   },
-
     data() {
         return {
             featuredMissions: [],
@@ -78,12 +77,12 @@ export default {
     },
     methods: {
         createChallenge(mission_id) {
-              const url1 = "http://127.0.0.1:6302/challenge";
+              const apiUrl = "http://127.0.0.1:6302/challenge";
               const body = {
-                  "mission_id": mission_id, // need to change this make it dynamic when user clicks on indiv challenge
+                  "mission_id": mission_id,
                   "account_id": 2,
               }
-              axios.post(url1, body).then((response) => {
+              axios.post(apiUrl, body).then((response) => {
                   console.log(response.data.data);
                   mission.joined=true;
               }).catch((error) => {
@@ -94,17 +93,10 @@ export default {
             const apiUrl = "http://127.0.0.1:6300/mission/active";
             axios.get(apiUrl).then((response) => {
                 this.featuredMissions = response.data.data.missions;
-                // console.log(response.data.data);
             }).catch((error) => {
                 console.log(error);
             });
         },
-        // joinChallenge(id,mission) {
-        //     // logic to join the challenge with the specified id
-        //     console.log("Joining challenge with ID:", mission.mission_id);
-        //     mission.joined = true;
-        // },
-        
     }
 };
 </script>
