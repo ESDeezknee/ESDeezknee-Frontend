@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import ChallengeView from '../views/ChallengeView.vue'
 import ActiveChallengesView from '../views/ActiveChallenges.vue' 
 import RedemptionView from '../views/RedemptionView.vue'
+import CreateGroupView from '../views/CreateGroupView.vue'
+import InputGroupView from '../views/InputGroupView.vue'  
 
 
 const router = createRouter({
@@ -35,6 +37,16 @@ const router = createRouter({
       path: '/redemption',
       name: 'redemption',
       component: RedemptionView
+    },
+    {
+      path: '/create-group',
+      name: 'create-group',
+      component:CreateGroupView
+    },
+    {
+      path: '/input-group',
+      name: 'input-group',
+      component: () => import('../views/InputGroupView.vue')
     }
   ]
 })
