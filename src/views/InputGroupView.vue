@@ -1,49 +1,70 @@
 <template>
     <MobileTemplate>
-      <p class="fw-bold mt-4" style="font-size:large; text-align: center;">{{ title }}</p>
-      <form>
-        <div class="mb-3" style="font-size:small">
-          <label for="pax" class="col col-form-label">Number of pax:</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="pax">
+        <div class="mt-4">
+            <router-link to="/create-group" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
+            <i class="bi bi-chevron-left"></i>
+            </router-link>
+            <h5 class="d-flex justify-content-center">{{ title }}</h5>
+        </div>
+        <div class="d-flex justify-content-center position-relative">
+            <lottie-player src=https://assets4.lottiefiles.com/packages/lf20_6aYlBl.json background="transparent" speed="1"
+          style="width: 200px; height:150px;" loop autoplay></lottie-player>
+        </div>
+      <div class="input-group-view">
+        <div class="card border border-0">
+          <div class="card-body bg-light">
+
+            <form>
+              <div class="mb-3" style="font-size:small">
+                <label for="pax" class="col col-form-label">Number of pax:</label>
+                <input type="number" class="form-control" id="no_of_pax" v-model="no_of_pax" ref="paxInput">
+              </div>
+  
+              <div class="mb-3" style="font-size:small;">
+                <label for="description" class="col form-label">Description:</label>
+                <textarea class="form-control" id="description" v-model="description" rows="2" ref="descriptionInput"
+                  placeholder="e.g. Looking for 5 guys..."></textarea>
+              </div>
+  
+              <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
+              @click="createGroup">Confirm</button>
+            </form>
+  
           </div>
         </div>
   
-        <div class="mb-3" style="font-size:small;">
-          <label for="description" class="col form-label">Description:</label>
-          <textarea class="form-control" id="description" rows="2"></textarea>
-        </div>
-  
-        <button type="button" class="btn btn-primary form-control mt-2" @click="openModal">Confirm</button>
-      </form>
-  
-      <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm Input Group Details</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Pop-up upon confirmation-->
+
+          <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
+            <p class="notification-title d-flex justify-content-left" style="font-size:small">Group created successfully! 🥳 </p>
+            <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+            <hr>
+            <div class="notification-body justify-content-center" style="font-size:x-small">
+              <p class="fs-5 fw-bolder text-center">Group ID: {{ groupID }}</p>
             </div>
-            <div class="modal-body">
-              <p>Number of pax: {{ numberOfPax }}</p>
-              <p>Description: {{ description }}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" @click="submitForm">Confirm</button>
+       
+            <div class="notification-footer justify-content-center" style="display: flex; justify-content: space-between;">
+              
+            <router-link :to="'/broadcast/' + groupID"  type="button" class="btn fw-semibold mb-2" onclick="" 
+                style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;" >Broadcast Group</router-link>
+
+              <router-link to="/all-groups" type="button" class="btn fw-semibold mb-2" onclick="" 
+              style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;">Join Group</router-link>
+            
             </div>
           </div>
-        </div>
+  
       </div>
-  
     </MobileTemplate>
   </template>
   
-  <script>
-  import MobileTemplate from '../components/MobileTemplate.vue';
-  import $ from 'jquery';
   
-  export default{
+  <script>
+
+import MobileTemplate from '../components/MobileTemplate.vue';
+import axios from 'axios';
+  
+  export default {
     name: "InputGroupView",
     components: {
       MobileTemplate
@@ -56,28 +77,114 @@
     },
     data() {
       return {
-        numberOfPax: '',
+        number_of_pax: '',
         description: '',
+        groupID: '',
+        showNotification: false,
       }
     },
+    async created() {
+        this.createGroup();
+    },
     methods: {
-      openModal() {
-        $('#confirmationModal').modal('show');
-        this.numberOfPax = $('#pax').val();
-        this.description = $('#description').val();
-      },
-      submitForm() {
-        // do something with the form data
-        $('#confirmationModal').modal('hide');
-      }
+
+    createGroup() {
+        const no_of_pax = document.getElementById("no_of_pax").value;
+        const description = document.getElementById("description").value;
+        // const = { no_of_pax, description };
+        const body = {
+                  list_account: [1],
+                  no_of_pax: no_of_pax,
+                  description: description,
+                  status: "Started",
+        }
+        
+        axios.post("http://127.0.0.1:6104/handleGroup/create", body)
+        .then((response) => {
+            // Set groupID and show notification
+            this.groupID = response.data.data.group_obj.grouping_id;
+            // console.log(this.groupID)
+            this.showNotification = true;
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+
+
     }
-  }
+}
+
   </script>
+  
   
   <style>
   .form-control {
     width: 100%;
-    text-align: left;
+    /* text-align: left; */
   }
+  
+  .card-body {
+    width: 100%;
+    margin: 1.75rem auto;
+  }
+
+  h5 {
+    font-weight: bold;
+    font-family: "Arial Rounded MT Bold", sans-serif;
+}
+
+.form-control::placeholder{
+    font-size: 0.75rem;
+    font-style: italic;
+    /* font-weight: 400;
+    color: #000; */
+    
+}
+
+.card {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.notification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification-box {
+  position: relative;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-left: 8px;
+  margin-bottom: 20px;
+  margin-top: -55px;
+  max-width: 250px;
+  width: 100%;
+}
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+
   </style>
+
   

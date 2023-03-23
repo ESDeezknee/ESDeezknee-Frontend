@@ -27,6 +27,7 @@ export default {
 
 * {
   font-family: 'Inter', sans-serif;
+
 }
 
 .mobile-header {
@@ -44,7 +45,7 @@ h2 {
 .mobile-phone {
   border: 10px solid #000000;
   border-radius: 20px;
-  width: 320px; /* adjust width as needed */
+  width: 340px; /* adjust width as needed */
   height: 640px; /* adjust height as needed */
   margin: auto;
   padding: 20px;

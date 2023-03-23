@@ -6,7 +6,8 @@ import RewardView from "../views/RewardView.vue";
 import RedemptionView from '../views/RedemptionView.vue'
 import CreateGroupView from '../views/CreateGroupView.vue'
 import InputGroupView from '../views/InputGroupView.vue'  
-
+import AllGroupsView from '../views/AllGroupsView.vue';
+import BroadcastView from '../views/BroadcastView.vue';
 
 
 const router = createRouter({
@@ -53,8 +54,19 @@ const router = createRouter({
     {
       path: '/input-group',
       name: 'input-group',
-      component: () => import('../views/InputGroupView.vue')
+      component: InputGroupView
+    },
+    {
+      path: '/all-groups',
+      name: 'all-groups',
+      component: AllGroupsView
+
+    },{
+      path: '/broadcast/:group_id',
+      name: 'broadcast',
+      component: BroadcastView
     }
+
   ]
 })
 
