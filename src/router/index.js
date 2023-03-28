@@ -8,6 +8,8 @@ import CreateGroupView from '../views/CreateGroupView.vue'
 import InputGroupView from '../views/InputGroupView.vue'  
 import AllGroupsView from '../views/AllGroupsView.vue';
 import BroadcastView from '../views/BroadcastView.vue';
+import LoginView from '../views/LoginView.vue';
+import SignupView from '../views/SignupView.vue';
 
 
 const router = createRouter({
@@ -65,6 +67,16 @@ const router = createRouter({
       path: '/broadcast/:group_id',
       name: 'broadcast',
       component: BroadcastView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: SignupView
     }
 
   ]

@@ -12,8 +12,11 @@
         </div>
       <div class="input-group-view">
         <div class="card border border-0">
-          <div class="card-body bg-light">
 
+          <div id="errorMsg" style="font-size:x-small; font-style: italic;"></div>
+
+        
+          <div class="card-body bg-light">
             <form>
               <div class="mb-3" style="font-size:small">
                 <label for="pax" class="col col-form-label">Number of pax:</label>
@@ -25,7 +28,7 @@
                 <textarea class="form-control" id="description" v-model="description" rows="2" ref="descriptionInput"
                   placeholder="e.g. Looking for 5 guys..."></textarea>
               </div>
-  
+
               <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
               @click="createGroup">Confirm</button>
             </form>
@@ -36,7 +39,7 @@
         <!-- Pop-up upon confirmation-->
 
           <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
-            <p class="notification-title d-flex justify-content-left" style="font-size:small">Group created successfully! 🥳 </p>
+            <p class="notification-title d-flex justify-content-center" style="color: #38b000; font-size:large; font-weight:900;">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i> </p>
             <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
             <hr>
             <div class="notification-body justify-content-center" style="font-size:x-small">
@@ -81,6 +84,7 @@ import axios from 'axios';
         description: '',
         groupID: '',
         showNotification: false,
+        errorMsg: ''
       }
     },
     async created() {
@@ -91,6 +95,7 @@ import axios from 'axios';
     createGroup() {
         const no_of_pax = document.getElementById("no_of_pax").value;
         const description = document.getElementById("description").value;
+        let errorMsg = "";
         // const = { no_of_pax, description };
         const body = {
                   list_account: [1],
@@ -102,13 +107,40 @@ import axios from 'axios';
         axios.post("http://127.0.0.1:6104/handleGroup/create", body)
         .then((response) => {
             // Set groupID and show notification
-            this.groupID = response.data.data.group_obj.grouping_id;
             // console.log(this.groupID)
-            this.showNotification = true;
+      
+            console.log(this.no_of_pax)
+            console.log(this.description)
+            this.showNotification = false;
+
+            if(this.description == "" && !this.no_of_pax){
+                errorMsg = "Please enter number of pax & description!"
+            }
+            else if(this.description == ""){
+                errorMsg = "Please enter description!"
+            }
+            else if(this.no_of_pax == ""){
+                errorMsg = "Please enter number of pax!"
+            }
+            else{
+              this.groupID = response.data.data.group_obj.grouping_id;
+              this.showNotification = true;
+            }
+    
+            let temp = document.getElementById("errorMsg")
+            temp.innerHTML = errorMsg
+            if(errorMsg != ""){
+              temp.classList.add("alert")
+              temp.classList.add("alert-danger")
+
+            }
+          
 
         })
         .catch((error) => {
-            console.log(error);
+
+          // this.errorMsg = "An error occurred while creating the group.";
+          console.log(error)
         });
     },
 
@@ -163,7 +195,8 @@ import axios from 'axios';
 
 .notification-box {
   position: relative;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: rgba(25, 135, 84, 0.1);
   border-radius: 4px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   padding: 20px;
@@ -182,6 +215,10 @@ import axios from 'axios';
   border: none;
   cursor: pointer;
 }
+.input-field::placeholder {
+  font-size: small;
+}
+
 
 
 

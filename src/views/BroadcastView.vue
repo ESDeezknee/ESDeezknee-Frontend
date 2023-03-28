@@ -14,6 +14,8 @@
         </div>
         <div class="input-group-view">
         <div class="card border border-0">
+
+          <div id="errorMsg" style="font-size:x-small; font-style: italic;"></div>
           <div class="card-body bg-light">
             <form>
               <div class="mb-3" style="font-size:small">
@@ -24,8 +26,9 @@
   
               <div class="mb-3" style="font-size:small">
                 <label for="date_of_visit" class="col col-form-label">Date of Visit:</label>
-                <input type="date" class="form-control" id="date_of_visit" v-model="date_of_visit" ref="date_of_visit">
+                <input type="date" class="form-control" id="date_of_visit" v-model="date_of_visit" ref="date_of_visit" :min="today">
               </div>
+
   
               <button type="button" class="btn btn-success form-control mt-2" style=" color:white;"
                 @click="createBroadcast">Confirm</button>
@@ -39,16 +42,18 @@
         <!-- Pop up message: broadcast failed -->
 
         <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-            <p class="notification-title d-flex justify-content-center" style="font-size:small; color=#da1e37">Broadcast Failed. Please try again! </p>
+            <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
             <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+            <hr>
+            <p class="text-center" style="font-size:small;" >Broadcast failed, please try again.</p>
         </div>
 
         <!-- Pop up message: broadcast successful  -->
         <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:medium">SUCCESS</p>
+            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
             <button @click="showSuccess= false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
             <hr>
-            <p class="text-center" style="font-size:small">We will notify you when someone joins your group! 🥳 </p>
+            <p class="text-center" style="font-size:small;" >We will notify you when someone joins your group. </p>
         </div>
 
     </MobileTemplate>
@@ -57,8 +62,9 @@
 <script>
 
 import axios from "axios";
-import console from "console";
 import MobileTemplate from "../components/MobileTemplate.vue";
+
+
 export default {
     name: "BroadcastView",
     components: {
@@ -75,7 +81,9 @@ export default {
             lf_pax: '',
             date_of_visit: '',
             showFailure: false,
-            showSuccess: false
+            showSuccess: false,
+            errorMsg: '',
+            today: new Date().toISOString().split("T")[0],
         }
     },
     created() {
@@ -83,25 +91,55 @@ export default {
     },
     methods:{
         createBroadcast(group_id){
-            const apiUrl = "http://127.0.0.1:6104/handleGroup/broadcast";
-            const body = {
-              group_id: group_id,
-              lf_pax: this.lf_pax,
-              date_of_visit: this.date_of_visit
+          const lf_pax = document.getElementById("lf_pax").value;
+          const date_of_visit = document.getElementById("date_of_visit").value;
+          
+          let errorMsg = "";
+
+          const body = {
+            group_id: group_id,
+            lf_pax: lf_pax,
+            date_of_visit: date_of_visit
+          }
+
+          axios.post("http://127.0.0.1:6104/handleGroup/broadcast", body)
+          .then((response) => {
+              console.log(this.lf_pax)
+              console.log(this.date_of_visit)
+              this.showSuccess= false;
+              this.showFailure = false;
+
+              if(this.lf_pax == "" && !this.date_of_visit){
+                errorMsg = "Please enter number of pax & date of visit!"
+                this.showFailure = true;
+              }
+              else if(this.date_of_visit == ""){
+                  errorMsg = "Please enter date of visit!"
+                  this.showFailure = true;
+              }
+              else if(this.lf_pax == ""){
+                  errorMsg = "Please enter number of pax!"
+                  this.showFailure = true;
+              }
+              else{
+                // this.groupID = response.data.data.group_obj.grouping_id;
+                this.showSuccess = true;
+              }
+      
+              let temp = document.getElementById("errorMsg")
+              temp.innerHTML = errorMsg
+              if(errorMsg != ""){
+                temp.classList.add("alert")
+                temp.classList.add("alert-danger")
+
             }
 
-            axios.post(apiUrl, body)
-            .then((response) => {
-                // console.log(response.data.data);
-                this.showSuccess=true;
-                this.showFailure = false;
-            }).catch((error) => {
-              console.log(error)
-              this.showSuccess = false;
-              this.showFailure = true;
-            });
-        }
-    }
+          }).catch((error) => {
+            console.log(error)
+  
+          });
+      }
+  }
 }
 
 </script>
@@ -178,6 +216,11 @@ export default {
   border: none;
   cursor: pointer;
 }
+
+input[type=date] {
+  font-size: small;
+}
+
 
 
 </style>

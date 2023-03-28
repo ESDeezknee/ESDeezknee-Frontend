@@ -45,7 +45,7 @@ export default{
     },
     data () {
         return {
-            groupings: [],
+            groupings: []
         }
     },
     created() {
