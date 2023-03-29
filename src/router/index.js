@@ -15,8 +15,8 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView,
+      name: "login",
+      component: LoginView,
     },
     {
       path: "/about",
@@ -65,11 +65,6 @@ const router = createRouter({
       path: "/broadcast/:group_id",
       name: "broadcast",
       component: BroadcastView,
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: LoginView,
     },
   ],
 });

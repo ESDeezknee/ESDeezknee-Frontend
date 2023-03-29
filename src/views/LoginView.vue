@@ -11,7 +11,7 @@
       <h2>Login</h2>
     </div>
 
-    <form class="mt-4">
+    <form class="mt-4" @submit.prevent="loginWithEmail">
       <div class="mb-4">
         <label for="email" class="input-label fw-semibold mb-1" title="Email Address is required">Email Address<span
             class="text-danger">*</span></label>
@@ -32,13 +32,16 @@
     </form>
 
     <div class="mt-3 d-flex justify-content-center">
-      <span class="me-1" style="font-size:small; color:#6B7280;">Don't have an account?</span><a href="#signup" class="ms-1" style="font-size:small;">Sign Up</a>
+      <span class="me-1" style="font-size:small; color:#6B7280;">Don't have an account?</span><a href="#signup"
+        class="ms-1" style="font-size:small;">Sign up</a>
     </div>
   </MobileTemplate>
 </template>
 
 <script>
+import { useAccountStore } from "@/stores/account";
 import MobileTemplate from "../components/MobileTemplate.vue";
+import "@lottiefiles/lottie-player";
 
 export default {
   name: "LoginView",
@@ -52,15 +55,22 @@ export default {
       errorMsg: "",
     };
   },
+  setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
+  },
   methods: {
-    loginWithEmail() {
-      // this.$store.dispatch('loginWithEmail', {email: this.email, password: this.password})
-      // .then(() => {
-      //     this.$router.push('/home')
-      // })
-      // .catch((error) => {
-      //     this.errorMsg = error.message
-      // })
+    async loginWithEmail() {
+      try {
+        const response = await this.accountStore.loginWithEmail(
+          this.email
+        );
+
+        this.$router.push("/reward");
+      } catch (error) {
+        console.log(error.message)
+      }
     },
   },
 };
@@ -69,5 +79,10 @@ export default {
 <style>
 * {
   font-family: "Inter", sans-serif;
+}
+
+input[type="email"],
+input[type="password"] {
+  font-size: small;
 }
 </style>

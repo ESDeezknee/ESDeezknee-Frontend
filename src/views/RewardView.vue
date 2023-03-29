@@ -28,8 +28,8 @@
                 <img :src="reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
                 <hr>
                 <button class="btn btn-success w-100 mt-2" style="font-size:small;"
-                @click=" createRedemption(reward.account_id, reward.reward_id);
-                getRedemptionStatus(reward.account_id, reward.reward_id)">
+                @click=" createRedemption(reward.reward_id);
+                getRedemptionStatus(reward.reward_id)">
                   Redeem Reward              
                 </button>
             </div>
@@ -56,6 +56,7 @@
 </template>
   
 <script>
+import { useAccountStore } from "@/stores/account";
 import { RouterLink, RouterView } from 'vue-router'
 import axios from "axios";
 import MobileTemplate from '../components/MobileTemplate.vue';
@@ -70,6 +71,11 @@ export default {
       rewards: [],
       loyalties:[]
     };
+  },
+  setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
   },
   created() {
     this.getRewards();
@@ -86,20 +92,19 @@ export default {
       });
     },
     getLoyalties() {
-      const apiUrl = "http://127.0.0.1:6301/loyalty/2";
+      const apiUrl = "http://127.0.0.1:6301/loyalty/" + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         this.loyalties = response.data.data;
-        // console.log(this.loyalties);
       }).catch((error) => {
         console.log(error);
       });
     },
 
-    createRedemption(account_id, reward_id) {
+    createRedemption(reward_id) {
               const url = "http://127.0.0.1:6304/redemption";
               const body = {
                   "reward_id": reward_id,
-                  "account_id": 2,
+                  "account_id": this.accountStore.account.account_id,
               }
               axios.post(url, body)
               .then((response) => {
@@ -109,11 +114,11 @@ export default {
               });
     },
 
-    getRedemptionStatus(account_id, reward_id) {
-      const url = "http://127.0.0.1:6304/redemption/account/" + account_id;
+    getRedemptionStatus(reward_id) {
+      const url = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
       const body = {
           "reward_id": reward_id,
-          "account_id": 2,
+          "account_id":this.accountStore.account.account_id,
       }
       axios.get(url, body)
       .then((response) => {
