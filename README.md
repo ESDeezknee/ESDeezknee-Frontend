@@ -1,6 +1,6 @@
 # ESDeezknee-Frontend
 
-Frontend Testing
+Frontend
 
 ## Customize configuration
 
