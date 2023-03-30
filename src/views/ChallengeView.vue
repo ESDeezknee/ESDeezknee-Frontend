@@ -37,11 +37,10 @@
               <span style="font-size:x-small"><strong>Difficulty:</strong> {{ mission.difficulty }}</span><br>
               <span style="font-size:x-small"><strong>Duration:</strong> {{ mission.duration }}</span><br>
               <span style="font-size:x-small"><strong>Points:</strong> {{ mission.award_points }}</span>
-              <!-- <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="joinChallenge(mission.mission_id)">Join Challenge</button> -->
 
-              <button :class="['btn w-100 mt-2', mission.joined ? 'btn-secondary' : 'btn-success']"
-                style="font-size:small;" @click="createChallenge(mission.mission_id)" :disabled="mission.joined">
-                {{ mission.joined ? 'Challenge Joined' : 'Join Challenge' }}
+              <button :class="['btn w-100 mt-2', mission.challenge ? 'btn-secondary' : 'btn-success']"
+                style="font-size:small;" @click="createChallenge(mission.mission_id)" :disabled="mission.challenge">
+                {{ mission.challenge ? 'Challenge Joined' : 'Join Challenge' }}
               </button>
 
             </div>
@@ -80,29 +79,31 @@ export default {
     return { accountStore };
   },
   methods: {
-    createChallenge(mission_id) {
+    async createChallenge(mission_id) {
       const apiUrl = "http://127.0.0.1:6302/challenge";
       const body = {
         "mission_id": mission_id,
         "account_id": this.accountStore.account.account_id,
       }
-      axios.post(apiUrl, body).then((response) => {
+      await axios.post(apiUrl, body).then((response) => {
+        this.getChallenges();
+        this.getMissions();
         console.log(response.data.data);
       }).catch((error) => {
         console.log(error);
       });
     },
-    getChallenges() {
+    async getChallenges() {
       const apiUrl = "http://127.0.0.1:6302/challenge/account/" + this.accountStore.account.account_id;
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         this.challenges = response.data.data.challenges;
       }).catch((error) => {
         console.log(error);
       });
     },
-    getMissions() {
+    async getMissions() {
       const apiUrl = "http://127.0.0.1:6300/mission/active";
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         const missions = response.data.data.missions;
 
         const missionsWithChallenges = missions.map((mission) => {
@@ -114,8 +115,6 @@ export default {
         });
 
         this.missions = missionsWithChallenges
-
-        console.log(this.missions)
       }).catch((error) => {
         console.log(error);
       });
