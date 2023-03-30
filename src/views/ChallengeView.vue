@@ -26,7 +26,7 @@
             </div>
 
 
-            <div class="mission-cards">
+            <div class="mission-cards mb-3">
                 <span class="fw-semibold" style="font-size:x-small; color:#6B7280">FEATURED CHALLENGES:</span>
                 <div class="row flex-row">
                 <div class="col-12" v-for="mission in featuredMissions" :key="mission.id">

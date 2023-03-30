@@ -15,7 +15,7 @@
         <p class="loyalty-card-points">{{ loyalties.available_points }}</p>
     </div>
     <hr>
-      <div class="mission-cards">
+      <div class="mission-cards mb-3">
         <span class="fw-semibold" style="font-size:x-small; color:#6B7280">AVAILABLE REWARDS:</span>
         <div class="row flex-row">
         <div class="col-12" v-for="reward in rewards" :key="reward.id">

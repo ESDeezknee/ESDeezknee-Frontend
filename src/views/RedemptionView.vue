@@ -9,7 +9,7 @@
             <lottie-player src=https://assets10.lottiefiles.com/packages/lf20_aunkuejh.json  background="transparent" speed="1" style="width: 50px; height:50px;" loop autoplay></lottie-player>
           </div>
       </div>
-      <div class="mission-cards">
+      <div class="mission-cards mb-3">
         <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY REDEMPTIONS:</span>
         <div class="row flex-row">
         <div class="col-12" v-for="redemption in redemptions" :key="redemption.id">

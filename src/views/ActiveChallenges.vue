@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="mission-cards">
+    <div class="mission-card mb-3">
       <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY CHALLENGES:</span>
       <div class="row flex-row">
         <div class="col-12" v-for="challenge in challenges" :key="challenge.id">
