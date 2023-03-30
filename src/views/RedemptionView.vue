@@ -15,11 +15,12 @@
         <div class="col-12" v-for="redemption in redemptions" :key="redemption.id">
             <div class="card border border-0">
             <div class="card-body bg-light">
-                <span class="card-title fw-bold" style="font-size:small">{{ redemption.name }}</span><br>
-                <span class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">{{ redemption.description }}</span><br>
-                <span style="font-size:x-small;" ><strong>Points:</strong> {{ redemption.exchange_points }}, <strong>Quantity:</strong> {{ redemption.quantity }} </span><br>
-                <!-- <span style="font-size:x-small;"><strong>Quantity:</strong> {{ reward.quantity }}</span><br> -->
-                <img :src="reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
+                <span class="card-title fw-bold" style="font-size:small">{{ redemption.reward.name }}</span><br>
+                <span class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">{{ redemption.reward.description }}</span><br>
+                <span style="font-size:x-small;" ><strong>Points:</strong> {{ redemption.reward.exchange_points }}, <strong>Quantity:</strong> {{ redemption.reward.quantity }} </span><br>
+                <span style="font-size:x-small;"><strong>Code:</strong> {{ redemption.redemption_code }}</span><br>
+                <span style="font-size:x-small;"><strong>Status:</strong> {{ redemption.status }}</span><br>
+                <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
                 
             </div>
             </div>
@@ -50,6 +51,7 @@ export default {
   },
   data() {
     return {
+      rewards: [],
       redemptions: [],
     };
   },
@@ -58,22 +60,15 @@ export default {
 
     return { accountStore };
   },
-  created() {
+  async created() {
+    await this.getRewards();
     this.getRedemptions();
   },
   methods: {
-    getRedemptions() {
-      const apiUrl = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
-      axios.get(apiUrl).then((response) => {
-        this.redemptions = response.data.data.redemptions;
-      }).catch((error) => {
-        console.log(error);
-      });
-    },
     getRewards() {
-      const apiUrl = "http://127.0.0.1:6303/mission/active";
+      const apiUrl = "http://127.0.0.1:6303/reward/active";
       axios.get(apiUrl).then((response) => {
-        this.missions = response.data.data.missions;
+        this.rewards = response.data.data.rewards;
         // console.log(response.data.data);
       }).catch((error) => {
         console.log(error);
@@ -84,15 +79,15 @@ export default {
       axios.get(apiUrl).then((response) => {
         const redemptions = response.data.data.redemptions;
 
-        const challengesWithMissions = challenges.map((challenge) => {
-          const mission = this.missions.find((mission) => mission.mission_id === challenge.mission_id);
+        const redemptionsWithRewards = redemptions.map((redemption) => {
+          const reward = this.rewards.find((reward) => reward.reward_id === redemption.reward_id);
           return {
-            ...challenge,
-            mission: mission
+            ...redemption,
+            reward: reward
           };
         });
 
-        this.challenges = challengesWithMissions
+        this.redemptions = redemptionsWithRewards
 
       }).catch((error) => {
         console.log(error);
