@@ -21,7 +21,6 @@
                 <span style="font-size:x-small;"><strong>Code:</strong> {{ redemption.redemption_code }}</span><br>
                 <span style="font-size:x-small;"><strong>Status:</strong> {{ redemption.status }}</span><br>
                 <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
-                
             </div>
             </div>
         </div>

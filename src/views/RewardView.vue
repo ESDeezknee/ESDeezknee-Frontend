@@ -31,8 +31,7 @@
               <img :src="reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;"
                 class="mt-2 col-md-12 text-center rounded-2">
               <hr>
-              <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="createRedemption(reward.reward_id);
-              getRedemptionStatus(reward.reward_id)">
+              <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="createRedemption(reward.reward_id)">
                 Redeem Reward
               </button>
             </div>
@@ -100,7 +99,6 @@ export default {
         console.log(error);
       });
     },
-
     createRedemption(reward_id) {
       const url = "http://127.0.0.1:6304/redemption";
       const body = {
@@ -112,7 +110,7 @@ export default {
           console.log(response.data.data);
           this.getLoyalties()
         }).catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
 
