@@ -28,7 +28,7 @@
     <div class="mission-cards mb-3">
       <span class="fw-semibold" style="font-size:x-small; color:#6B7280">FEATURED CHALLENGES:</span>
       <div class="row flex-row">
-        <div class="col-12" v-for="mission in featuredMissions" :key="mission.id">
+        <div class="col-12" v-for="mission in missions" :key="mission.id">
           <div class="card border border-0">
             <div class="card-body bg-light">
               <span class="card-title fw-bold" style="font-size:small">{{ mission.name }}</span><br>
@@ -66,10 +66,12 @@ export default {
   },
   data() {
     return {
-      featuredMissions: [],
+      challenges: [],
+      missions: [],
     };
   },
-  created() {
+  async created() {
+    await this.getChallenges();
     this.getMissions();
   },
   setup() {
@@ -86,7 +88,14 @@ export default {
       }
       axios.post(apiUrl, body).then((response) => {
         console.log(response.data.data);
-        mission.joined = true;
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    getChallenges() {
+      const apiUrl = "http://127.0.0.1:6302/challenge/account/" + this.accountStore.account.account_id;
+      axios.get(apiUrl).then((response) => {
+        this.challenges = response.data.data.challenges;
       }).catch((error) => {
         console.log(error);
       });
@@ -94,7 +103,19 @@ export default {
     getMissions() {
       const apiUrl = "http://127.0.0.1:6300/mission/active";
       axios.get(apiUrl).then((response) => {
-        this.featuredMissions = response.data.data.missions;
+        const missions = response.data.data.missions;
+
+        const missionsWithChallenges = missions.map((mission) => {
+          const challenge = this.challenges.find((challenge) => mission.mission_id === challenge.mission_id);
+          return {
+            ...mission,
+            challenge: challenge
+          };
+        });
+
+        this.missions = missionsWithChallenges
+
+        console.log(this.missions)
       }).catch((error) => {
         console.log(error);
       });

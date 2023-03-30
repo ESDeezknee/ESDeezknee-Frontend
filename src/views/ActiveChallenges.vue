@@ -19,9 +19,12 @@
           <div class="card border border-0">
             <div class="card-body bg-light">
               <span class="card-title fw-bold" style="font-size:small">{{ challenge.mission.name }}</span><br>
-              <span v-if="challenge.status !== 'Completed'" class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">Challenge ends in {{ this.diff_hours(new Date(), new Date(challenge.end_date))
-              }} hours time!</span>
-              <span v-else class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">Completed on {{ new Date(challenge.complete_date).toLocaleString() }}</span>
+              <span v-if="challenge.status !== 'Completed'" class="fw-light fst-italic"
+                style="font-size:xx-small; color:#6B7280;">Challenge ends in {{ this.diff_hours(new Date(), new
+                  Date(challenge.end_date))
+                }} hours time!</span>
+              <span v-else class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">Completed on {{ new
+                Date(challenge.complete_date).toLocaleString() }}</span>
               <br>
               <span style="font-size:x-small"><strong>Difficulty:</strong> {{ challenge.mission.difficulty }}</span><br>
               <span style="font-size:x-small"><strong>Duration:</strong> {{ challenge.mission.duration }}</span><br>
@@ -86,7 +89,7 @@ export default {
       });
     },
     getChallenges() {
-      const apiUrl = "http://127.0.0.1:6302/challenge/account/" + + this.accountStore.account.account_id;
+      const apiUrl = "http://127.0.0.1:6302/challenge/account/" + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         const challenges = response.data.data.challenges;
 
