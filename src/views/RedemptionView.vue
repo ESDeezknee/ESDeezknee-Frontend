@@ -38,6 +38,7 @@
 </template>
   
 <script>
+import { useAccountStore } from "@/stores/account";
 import { RouterLink, RouterView } from 'vue-router'
 import axios from "axios";
 import MobileTemplate from '../components/MobileTemplate.vue';
@@ -52,12 +53,17 @@ export default {
       redemptions: [],
     };
   },
+  setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
+  },
   created() {
     this.getRedemptions();
   },
   methods: {
     getRedemptions() {
-      const apiUrl = "http://127.0.0.1:6304/redemption/account/2";
+      const apiUrl = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         this.redemptions = response.data.data.redemptions;
       }).catch((error) => {
@@ -74,7 +80,7 @@ export default {
       });
     },
     getRedemptions() {
-      const apiUrl = "http://127.0.0.1:6304/redemption/account/2";
+      const apiUrl = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         const redemptions = response.data.data.redemptions;
 

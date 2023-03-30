@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { useAccountStore } from "@/stores/account";
 import { RouterLink, RouterView } from 'vue-router'
 import axios from "axios";
 import MobileTemplate from '../components/MobileTemplate.vue';
@@ -57,6 +58,11 @@ export default {
       challenges: [],
       missions: [],
     };
+  },
+  setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
   },
   async created() {
     await this.getMissions();
@@ -73,7 +79,7 @@ export default {
       });
     },
     getChallenges() {
-      const apiUrl = "http://127.0.0.1:6302/challenge/account/2";
+      const apiUrl = "http://127.0.0.1:6302/challenge/account/" +  + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         const challenges = response.data.data.challenges;
 

@@ -1,61 +1,69 @@
 <template>
-    <RouterView />
-    <MobileTemplate>
-      <div class="container">
-        <p class="head fw-bold mt-4" style="font-size:x-large">{{ title }}</p>
-        <span class="fw-normal" style="font-size:small">
-          Choose to either <b>broadcast your own group</b> or <b>find other groups to join</b>.
-          Click on the button below to get started!
-        </span>
-        <div class="d-flex justify-content-center position-relative">
-            <div class="lottie-wrapper rounded-circle">
-                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_jmiecitk.json" background="transparent" speed="1"
-                style="width: 200px; height:200px;" loop autoplay>
-                </lottie-player>
-            </div>
+  <RouterView />
+  <MobileTemplate>
+    <div class="container">
+      <p class="head fw-bold mt-4" style="font-size: x-large">{{ title }}</p>
+      <span class="fw-normal" style="font-size: small">
+        Choose to either <b>broadcast your own group</b> or
+        <b>find other groups to join</b>. Click on the button below to get
+        started!
+      </span>
+      <div class="d-flex justify-content-center position-relative">
+        <div class="lottie-wrapper rounded-circle">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_jmiecitk.json"
+            background="transparent"
+            speed="1"
+            style="width: 200px; height: 200px"
+            loop
+            autoplay
+          >
+          </lottie-player>
         </div>
-        <router-link class="create-btn btn btn-success" to="/input-group" style="color:white">Create Group</router-link>
       </div>
-    </MobileTemplate>
-  </template>
-  
-  <script>
-  import MobileTemplate from "../components/MobileTemplate.vue";
-  import axios from "axios"; 
-  
-  export default {
-    name: "MyView",
-    components: {
-      MobileTemplate,
+      <router-link
+        class="create-btn btn btn-success"
+        to="/input-group"
+        style="color: white"
+        >Create Group</router-link
+      >
+    </div>
+  </MobileTemplate>
+</template>
+
+<script>
+import MobileTemplate from "../components/MobileTemplate.vue";
+import axios from "axios";
+
+export default {
+  name: "MyView",
+  components: {
+    MobileTemplate,
+  },
+  props: {
+    title: {
+      type: String,
+      default: "Ready for an adventure?",
     },
-    props: {
-      title: {
-        type: String,
-        default: "Ready for an adventure?",
-      },
-    },
-    methods: {
-    
-    },
-  };
-  </script>
-  
+  },
+  methods: {},
+};
+</script>
 
 <style>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
-.head{
-
-    font-weight: bold;
-    font-family: "Arial Rounded MT Bold", sans-serif;
+.head {
+  font-weight: bold;
+  font-family: "Arial Rounded MT Bold", sans-serif;
 }
 
 .mobile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .container {
@@ -66,7 +74,6 @@
   /* height: 50vh; */
   overflow: hidden;
 }
-
 
 .image-container {
   border-radius: 5%;
@@ -83,25 +90,21 @@
 .create-btn {
   margin-top: 10px;
   width: 100%;
-
-
 }
 
-
 .lottie-wrapper {
-    background-color: #ffe5ec;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  background-color: #ffe5ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .rounded-circle {
-    margin-top:20px;
-    margin-bottom:20px;
-    border-radius: 50% / 90%; /* make the oval shape */
-    width: 200px; /* set the same width as the Lottie animation */
-    height: 150px; /* set the height to create the oval shape */
-    overflow: hidden; /* clip the edges to create the oval shape */
-  }
-
+.rounded-circle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 50% / 90%; /* make the oval shape */
+  width: 200px; /* set the same width as the Lottie animation */
+  height: 150px; /* set the height to create the oval shape */
+  overflow: hidden; /* clip the edges to create the oval shape */
+}
 </style>
