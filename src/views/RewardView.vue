@@ -110,7 +110,7 @@ export default {
           console.log(response.data.data);
           this.getLoyalties()
         }).catch((error) => {
-          // console.log(error);
+          console.log(error);
         });
     },
 
