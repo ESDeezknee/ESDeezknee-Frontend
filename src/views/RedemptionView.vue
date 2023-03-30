@@ -1,40 +1,45 @@
 <template>
-<RouterView />
-    <MobileTemplate>
-        <div class="mobile-header" style="display: flex;">
-          <div class="header-left">
-          <h2>Redemptions</h2>
-          </div>
-          <div class="header-right">
-            <lottie-player src=https://assets10.lottiefiles.com/packages/lf20_aunkuejh.json  background="transparent" speed="1" style="width: 50px; height:50px;" loop autoplay></lottie-player>
-          </div>
+  <RouterView />
+  <MobileTemplate>
+    <div class="mobile-header" style="display: flex;">
+      <div class="header-left">
+        <h2>Redemptions</h2>
       </div>
-      <div class="mission-cards mb-3">
-        <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY REDEMPTIONS:</span>
-        <div class="row flex-row">
+      <div class="header-right">
+        <lottie-player src=https://assets10.lottiefiles.com/packages/lf20_aunkuejh.json background="transparent" speed="1"
+          style="width: 50px; height:50px;" loop autoplay></lottie-player>
+      </div>
+    </div>
+    <div class="mission-cards mb-3">
+      <span class="fw-semibold" style="font-size:x-small; color:#6B7280">MY REDEMPTIONS:</span>
+      <div class="row flex-row">
         <div class="col-12" v-for="redemption in redemptions" :key="redemption.id">
-            <div class="card border border-0">
+          <div class="card border border-0">
             <div class="card-body bg-light">
-                <span class="card-title fw-bold" style="font-size:small">{{ redemption.reward.name }}</span><br>
-                <span class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">{{ redemption.reward.description }}</span><br>
-                <span style="font-size:x-small;" ><strong>Points:</strong> {{ redemption.reward.exchange_points }}, <strong>Quantity:</strong> {{ redemption.reward.quantity }} </span><br>
-                <span style="font-size:x-small;"><strong>Code:</strong> {{ redemption.redemption_code }}</span><br>
-                <span style="font-size:x-small;"><strong>Status:</strong> {{ redemption.status }}</span><br>
-                <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;" class="mt-2 col-md-12 text-center rounded-2">
+              <span class="card-title fw-bold" style="font-size:small">{{ redemption.reward.name }}</span><br>
+              <span class="fw-light fst-italic" style="font-size:xx-small; color:#6B7280;">{{
+                redemption.reward.description }}</span><br>
+              <span style="font-size:x-small;"><strong>Points:</strong> {{ redemption.reward.exchange_points }},
+                <strong>Quantity:</strong> {{ redemption.reward.quantity }} </span><br>
+              <span style="font-size:x-small;"><strong>Status:</strong> {{ redemption.status }}</span><br>
+              <span style="font-size:x-small;"><strong>Code:</strong> {{ redemption.redemption_code }}</span><br>
+              <span v-if="redemption.status === 'Claimed'" style="font-size:x-small;"><strong>Redemption Date:</strong> {{
+                new Date(redemption.redemption_date).toLocaleString() }}</span>
+              <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;"
+                class="mt-2 col-md-12 text-center rounded-2"><br>
             </div>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
 
-    <router-link to="/reward" class="btn fw-semibold mb-2 w-100" 
-            style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small"
-            onmouseover="this.style.backgroundColor='#f1f5f9';" 
-            onmouseout="this.style.backgroundColor='#fff';">
-            Return to Rewards
+    <router-link to="/reward" class="btn fw-semibold mb-2 w-100"
+      style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small"
+      onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
+      Return to Rewards
     </router-link>
 
-    </MobileTemplate>
+  </MobileTemplate>
 </template>
   
 <script>
@@ -44,9 +49,9 @@ import axios from "axios";
 import MobileTemplate from '../components/MobileTemplate.vue';
 
 export default {
-    name: 'RedemptionView',
-    components: {
-        MobileTemplate
+  name: 'RedemptionView',
+  components: {
+    MobileTemplate
   },
   data() {
     return {
@@ -98,7 +103,6 @@ export default {
 </script>
   
 <style>
-
 * {
   font-family: 'Inter', sans-serif;
 }
@@ -142,6 +146,4 @@ export default {
   border-top: 1px solid #ccc;
   width: 100%;
 }
-
-
 </style>
