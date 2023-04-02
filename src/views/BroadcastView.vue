@@ -38,20 +38,10 @@
         </div>
         </div>
 
-
-        <!-- Pop up message: broadcast failed -->
-
-        <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-            <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
-            <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
-            <hr>
-            <p class="text-center" style="font-size:small;" >Broadcast failed, please try again.</p>
-        </div>
-
-        <!-- Pop up message: broadcast successful  -->
+        <!-- Pop up message: broadcast successful -->
         <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
             <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
-            <button @click="showSuccess= false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+            <button @click="showSuccess= false; $router.push('/all-groups')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
             <hr>
             <p class="text-center" style="font-size:small;" >We will notify you when someone joins your group. </p>
         </div>
@@ -63,7 +53,9 @@
 
 import axios from "axios";
 import MobileTemplate from "../components/MobileTemplate.vue";
-
+import { useAccountStore } from "@/stores/account";
+// {{this.accountStore.group_id}}
+// {{this.state.groupID}}
 
 export default {
     name: "BroadcastView",
@@ -86,40 +78,45 @@ export default {
             today: new Date().toISOString().split("T")[0],
         }
     },
-    created() {
-        const group_id = this.$route.params.group_id;
-    },
+    setup() {
+    const accountStore = useAccountStore();
+    return { accountStore };
+  },
+
     methods:{
-        createBroadcast(group_id){
+        createBroadcast(){
           const lf_pax = document.getElementById("lf_pax").value;
           const date_of_visit = document.getElementById("date_of_visit").value;
-          
+
           let errorMsg = "";
 
           const body = {
-            group_id: group_id,
+            broadcasted_id: this.accountStore.group_id,
             lf_pax: lf_pax,
             date_of_visit: date_of_visit
           }
+          // ${group_id}
 
+          // GET GROUP_ID FROM ACCOUNT STORE
+          
           axios.post("http://127.0.0.1:6104/handleGroup/broadcast", body)
           .then((response) => {
               console.log(this.lf_pax)
               console.log(this.date_of_visit)
               this.showSuccess= false;
-              this.showFailure = false;
+              // this.showFailure = false;
 
               if(this.lf_pax == "" && !this.date_of_visit){
                 errorMsg = "Please enter number of pax & date of visit!"
-                this.showFailure = true;
+                // this.showFailure = true;
               }
               else if(this.date_of_visit == ""){
                   errorMsg = "Please enter date of visit!"
-                  this.showFailure = true;
+                  // this.showFailure = true;
               }
               else if(this.lf_pax == ""){
                   errorMsg = "Please enter number of pax!"
-                  this.showFailure = true;
+                  // this.showFailure = true;
               }
               else{
                 // this.groupID = response.data.data.group_obj.grouping_id;
@@ -131,9 +128,7 @@ export default {
               if(errorMsg != ""){
                 temp.classList.add("alert")
                 temp.classList.add("alert-danger")
-
             }
-
           }).catch((error) => {
             console.log(error)
   

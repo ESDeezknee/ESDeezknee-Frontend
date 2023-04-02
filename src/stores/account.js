@@ -7,6 +7,7 @@ export const useAccountStore = defineStore("account", {
     const persistedState = JSON.parse(localStorage.getItem("accountStore")) || {
       loggedIn: false,
       account: null,
+      group: [],
     };
     return persistedState;
   },
@@ -33,5 +34,9 @@ export const useAccountStore = defineStore("account", {
     saveState() {
       localStorage.setItem("accountStore", JSON.stringify(this.$state));
     },
+    addGroup(group_id) {
+      this.group.push(group_id);
+      this.saveState();
+    }
   },
 });

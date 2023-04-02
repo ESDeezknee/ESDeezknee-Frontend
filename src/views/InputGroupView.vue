@@ -1,154 +1,142 @@
 <template>
-    <MobileTemplate>
-        <div class="mt-4">
-            <router-link to="/create-group" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
-            <i class="bi bi-chevron-left"></i>
-            </router-link>
-            <h5 class="d-flex justify-content-center">{{ title }}</h5>
-        </div>
-        <div class="d-flex justify-content-center position-relative">
-            <lottie-player src=https://assets4.lottiefiles.com/packages/lf20_6aYlBl.json background="transparent" speed="1"
-          style="width: 200px; height:150px;" loop autoplay></lottie-player>
-        </div>
-      <div class="input-group-view">
-        <div class="card border border-0">
-
-          <div id="errorMsg" style="font-size:x-small; font-style: italic;"></div>
-
-        
-          <div class="card-body bg-light">
-            <form>
-              <div class="mb-3" style="font-size:small">
-                <label for="pax" class="col col-form-label">Number of pax:</label>
-                <input type="number" class="form-control" id="no_of_pax" v-model="no_of_pax" ref="paxInput">
-              </div>
-  
-              <div class="mb-3" style="font-size:small;">
-                <label for="description" class="col form-label">Description:</label>
-                <textarea class="form-control" id="description" v-model="description" rows="2" ref="descriptionInput"
-                  placeholder="e.g. Looking for 5 guys..."></textarea>
-              </div>
-
-              <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
+  <MobileTemplate>
+    <div class="mt-4">
+      <router-link to="/create-group" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
+        <i class="bi bi-chevron-left"></i>
+      </router-link>
+      <h5 class="d-flex justify-content-center">{{ title }}</h5>
+    </div>
+    <div class="d-flex justify-content-center position-relative">
+      <lottie-player src=https://assets4.lottiefiles.com/packages/lf20_6aYlBl.json background="transparent" speed="1"
+        style="width: 200px; height:150px;" loop autoplay></lottie-player>
+    </div>
+    <div class="input-group-view">
+      <div class="card border border-0">
+        <div id="errorMsg" style="font-size:x-small; font-style: italic;"></div>
+        <div class="card-body bg-light">
+          <form>
+            <div class="mb-3" style="font-size:small">
+              <label for="pax" class="col col-form-label">Number of pax:</label>
+              <input type="number" class="form-control" id="no_of_pax" v-model="number_of_pax" ref="paxInput">
+            </div>
+            <div class="mb-3" style="font-size:small;">
+              <label for="description" class="col form-label">Description:</label>
+              <textarea class="form-control" id="description" v-model="description" rows="2" ref="descriptionInput"
+                placeholder="e.g. Looking for 5 guys..."></textarea>
+            </div>
+            <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
               @click="createGroup">Confirm</button>
-            </form>
-  
-          </div>
+          </form>
         </div>
-  
-        <!-- Pop-up upon confirmation-->
-
-          <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
-            <p class="notification-title d-flex justify-content-center" style="color: #38b000; font-size:large; font-weight:900;">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i> </p>
-            <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
-            <hr>
-            <div class="notification-body justify-content-center" style="font-size:x-small">
-              <p class="fs-5 fw-bolder text-center">Group ID: {{ groupID }}</p>
-            </div>
-       
-            <div class="notification-footer justify-content-center" style="display: flex; justify-content: space-between;">
-              
-            <router-link :to="'/broadcast/' + groupID"  type="button" class="btn fw-semibold mb-2" onclick="" 
-                style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;" >Broadcast Group</router-link>
-
-              <router-link to="/all-groups" type="button" class="btn fw-semibold mb-2" onclick="" 
-              style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;">Join Group</router-link>
-            
-            </div>
-          </div>
-  
       </div>
-    </MobileTemplate>
-  </template>
-  
-  
-  <script>
+      <!-- Pop-up upon confirmation-->
+      <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
+        <p class="notification-title d-flex justify-content-center" style="color: #38b000; font-size:large; font-weight:900;">
+          SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i>
+        </p>
+        <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+        <hr>
+        <div class="notification-body justify-content-center" style="font-size:x-small">
+          <p class="fs-5 fw-bolder text-center">Group ID: {{ groupID }}</p>
+        </div>
+        <div class="notification-footer justify-content-center" style="display: flex; justify-content: space-between;">
+          <router-link :to="'/broadcast'" type="button" class="btn fw-semibold mb-2" onclick=""
+            style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;" >
+            Broadcast Group
+          </router-link>
+          <router-link to="/all-groups" type="button" class="btn fw-semibold mb-2" onclick=""
+            style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:xx-small; flex: 1; margin-left: 5px;">Join Group
+          </router-link>
+        </div>
+        </div>
+    </div>
+</MobileTemplate>
+</template>
 
+<script>
+import { useAccountStore } from "@/stores/account";
 import MobileTemplate from '../components/MobileTemplate.vue';
 import axios from 'axios';
-  
-  export default {
-    name: "InputGroupView",
-    components: {
-      MobileTemplate
-    },
-    props: {
-      title: {
-        type: String,
-        default: 'Input Group Details'
-      }
-    },
-    data() {
-      return {
-        number_of_pax: '',
-        description: '',
-        groupID: '',
-        showNotification: false,
-        errorMsg: ''
-      }
-    },
-    async created() {
-        this.createGroup();
-    },
-    methods: {
 
+export default {
+  name: "InputGroupView",
+  components: {
+    MobileTemplate
+  },
+  props: {
+    title: {
+      type: String,
+      default: 'Input Group Details'
+    }
+  },
+  data() {
+    return {
+      number_of_pax: '',
+      description: '',
+      groupID: '',
+      showNotification: false,
+      errorMsg: ''
+    }
+  },
+  setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
+  },
+  async created() {
+    this.createGroup();
+  },
+  methods: {
     createGroup() {
-        const no_of_pax = document.getElementById("no_of_pax").value;
-        const description = document.getElementById("description").value;
-        let errorMsg = "";
-        // const = { no_of_pax, description };
-        const body = {
-                  list_account: [1],
-                  no_of_pax: no_of_pax,
-                  description: description,
-                  status: "Started",
-        }
-        
-        axios.post("http://127.0.0.1:6104/handleGroup/create", body)
-        .then((response) => {
-            // Set groupID and show notification
-            // console.log(this.groupID)
+      const no_of_pax = document.getElementById("no_of_pax").value;
+      const description = document.getElementById("description").value;
+      let errorMsg = "";
+
+      const body = {
+        list_account: [1],
+        no_of_pax: no_of_pax,
+        description: description,
+        status: "Started",
+      }
       
-            console.log(this.no_of_pax)
-            console.log(this.description)
-            this.showNotification = false;
+      axios.post("http://127.0.0.1:6104/handleGroup/create", body)
+        .then((response) => {
+          console.log(this.no_of_pax)
+          console.log(this.description)
+          this.showNotification = false;
 
-            if(this.description == "" && !this.no_of_pax){
-                errorMsg = "Please enter number of pax & description!"
-            }
-            else if(this.description == ""){
-                errorMsg = "Please enter description!"
-            }
-            else if(this.no_of_pax == ""){
-                errorMsg = "Please enter number of pax!"
-            }
-            else{
-              this.groupID = response.data.data.group_obj.grouping_id;
-              this.showNotification = true;
-            }
-    
-            let temp = document.getElementById("errorMsg")
-            temp.innerHTML = errorMsg
-            if(errorMsg != ""){
-              temp.classList.add("alert")
-              temp.classList.add("alert-danger")
+          if(this.description == "" && !this.no_of_pax){
+            errorMsg = "Please enter number of pax & description!"
+          }
+          else if(this.description == ""){
+            errorMsg = "Please enter description!"
+          }
+          else if(this.no_of_pax == ""){
+            errorMsg = "Please enter number of pax!"
+          }
+          else{
+            this.groupID = response.data.data.group_obj.grouping_id;
+            this.showNotification = true;
+            this.accountStore.addGroup(
+              this.groupID
+            );
+            // this.$store.dispatch('updateGroupID', this.groupID);
+          }
 
-            }
-          
-
+          let temp = document.getElementById("errorMsg")
+          temp.innerHTML = errorMsg
+          if(errorMsg != ""){
+            temp.classList.add("alert")
+            temp.classList.add("alert-danger")
+          }
         })
         .catch((error) => {
-
-          // this.errorMsg = "An error occurred while creating the group.";
           console.log(error)
         });
-    },
-
-
     }
+  }
 }
-
-  </script>
+</script>
   
   
   <style>

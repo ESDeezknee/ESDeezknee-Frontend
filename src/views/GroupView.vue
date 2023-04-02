@@ -1,12 +1,11 @@
 <template>
   <RouterView />
   <MobileTemplate>
-    <div class="container">
-      <p class="head fw-bold mt-4" style="font-size: x-large">{{ title }}</p>
+    <div class="container mt-4">
+      <p class="head fw-bold mt-4" style="font-size: xx-large">{{ title }}</p>
       <span class="fw-normal" style="font-size: small">
-        Choose to either <b>broadcast your own group</b> or
-        <b>find other groups to join</b>. Click on the button below to get
-        started!
+        Choose to either broadcast your own group or
+         find other groups to join. Let's get started!
       </span>
       <div class="d-flex justify-content-center position-relative">
         <div class="lottie-wrapper rounded-circle">
@@ -43,7 +42,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Ready for an adventure?",
+      default: "Group",
     },
   },
   methods: {},

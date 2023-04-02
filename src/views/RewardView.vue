@@ -1,3 +1,4 @@
+L
 <template>
   <RouterView />
   <MobileTemplate>
@@ -29,7 +30,7 @@
                 <strong>Quantity:</strong> {{ reward.quantity }} </span><br>
               <!-- <span style="font-size:x-small;"><strong>Quantity:</strong> {{ reward.quantity }}</span><br> -->
               <img :src="reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;"
-                class="mt-2 col-md-12 text-center rounded-2">
+                class="mt-2 col-md-12 text-center rounded-2 w-100">
               <hr>
               <button class="btn btn-success w-100 mt-2" style="font-size:small;" @click="createRedemption(reward.reward_id)">
                 Redeem Reward

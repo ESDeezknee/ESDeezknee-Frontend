@@ -1,75 +1,159 @@
 <template>
-     <MobileTemplate>
+  <MobileTemplate>
     <div class="mobile-header" style="display: flex;">
-        <div class="header-left">
-            <h2>Groups</h2>
-        </div>
+      <div class="header-left">
+        <h2>Groups</h2>
+      </div>
     </div>
 
     <div class="mission-cards">
       <span class="fw-semibold" style="font-size:x-small; color:#6B7280">AVAILABLE GROUPS:</span>
       <div class="row flex-row">
-        <div class="col-12" v-for="group in groupings" :key="group.grouping_id">
+        <div class="col-12" v-for="broadcast in broadcast_listings" :key="broadcast.grouping_id" :group_id="broadcast.group_id" :broadcasted_group_id="broadcast.broadcasted_group_id">
           <div class="card border border-0">
             <div class="card-body bg-light">
-              <span class="card-title fw-bold" style="font-size:small">Group {{ group.group_id}}</span><br>
-              <span style="font-size:x-small"><strong>Looking for:</strong> {{ group.lf_pax }} pax</span><br>
-              <span style="font-size:x-small"><strong>Date of Visit:</strong> {{ new Date(group.date_of_visit).toDateString() }}</span><br>
+              <span class="card-title fw-bold" style="font-size:small">Group {{ broadcast.broadcasted_id }}</span><br>
+              <span style="font-size:x-small"><strong>Looking for:</strong> {{ broadcast.lf_pax }} pax</span><br>
+              <span style="font-size:x-small"><strong>Date of Visit:</strong> {{ new Date(broadcast.date_of_visit).toDateString() }}</span><br>
               <button
-                    :class="['btn w-100 mt-2', group.joined ? 'btn-secondary' : 'btn-success']"
-                    style="font-size:small;"
-                    @click=" createGroup(group.group_id)"
-                    :disabled="group.joined"
-                    >
-                    {{ group.joined ? 'Group Joined' : 'Join Group' }}
-                </button>
- 
+                :class="[
+                  'btn w-100 mt-2',
+                  broadcast.joined ? 'btn-secondary' : 'btn-success'
+                ]"
+                style="font-size:small;"
+                @click="joinGroup(currentGroupID, broadcast.broadcasted_group_id)"
+                :disabled="broadcast.joined"
+              >
+                {{ broadcast.joined ? 'Group Joined' : 'Join Group' }}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Pop up message: join successful  -->
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
+      <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <hr>
+      <p class="text-center" style="font-size:small;" >Congratulations, you are now part of Group {{ broadcast.broadcasted_group_id }}.</p>
+    </div>
 
-     </MobileTemplate>
+    <!-- Pop up message: join failure  -->
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
+      <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <hr>
+      <p class="text-center" style="font-size:small;" >Failed to join group, please try again.</p>
+    </div>
+  </MobileTemplate>
 </template>
 
 <script>
 import MobileTemplate from '../components/MobileTemplate.vue';
 import axios from 'axios';
 
-export default{
-    name: 'MyView',
-    components: {
-        MobileTemplate
-    },
-    data () {
-        return {
-            groupings: []
-        }
-    },
-    created() {
-        this.getBroadcastListings();
-    },
-    methods: {
+export default {
+  props: {
+    groupID: {
+      type: String,
+      default: ''
+    }
+  },
+  name: 'MyView',
+  components: {
+    MobileTemplate
+  },
+  data() {
+    return {
+      broadcast_listings: [],
+      showFailure: false,
+      showSuccess: false
+    }
+  },
+  created() {
+    this.getBroadcastListings();
+  },
+  
+  computed: {
+    currentGroupID() {
+      return this.$store.getters.groupID;
+    }
+  },
+
+  methods: {
     getBroadcastListings() {
-      const apiUrl = "http://127.0.0.1:6104/handleGroup/broadcast_listings";
-      
-      axios.get(apiUrl).then((response) => {
-        this.groupings = response.data.data.notice;
-        console.log(response.data.data);
-      }).catch((error) => {
-        console.log(error);
-      });
+      const apiUrl = 'http://127.0.0.1:6104/handleGroup/broadcast_listings';
+      axios.get(apiUrl)
+        .then(response => {
+          this.broadcast_listings = response.data.data.notice;
+          console.log(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    joinGroup(){
-        group.joined=true
+    joinGroup(group_id, broadcasted_group_id) {
+      const url = 'http://127.0.0.1:6104/handleGroup/join_group';
+      const data = {
+        group_id,
+        broadcasted_group_id
+      };
+      axios.post(url, data)
+        .then(response => {
+          console.log(response.data);
+          this.showSuccess = true;
+          const joinedGroup = this.broadcast_listings.find(group => group.group_id === group_id && group.broadcasted_group_id === broadcasted_group_id);
+          if (joinedGroup) {
+            joinedGroup.joined = true;
+          }
+          console.log(`Joining group with id: ${group_id}`);
+          this.$emit('group_id', group_id); // emit group_id event
+        })
+        .catch(error => {
+          console.log(error);
+          this.showFailure = true;
+        });
     }
-    
-    }
-}
+  }
+};
 </script>
 
 
 <style>
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+
+.mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notification-box {
+  position: relative;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-left: 8px;
+  margin-bottom: 20px;
+  margin-top: -55px;
+  max-width: 250px;
+  width: 100%;
+}
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 </style>
