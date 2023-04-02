@@ -26,6 +26,7 @@
 
 <script>
 import MobileTemplate from '../components/MobileTemplate.vue';
+import axios from 'axios';
 
 export default {
     name: 'PaymentModeView',
@@ -48,7 +49,8 @@ export default {
     },
     methods: {
         redirectToStripeCheckout() {
-            window.location.href = "https://checkout.stripe.com/pay/cs_test_a1xrVaiCjTYqCSwFYiHM2SkUhCsWK8U18unsf10s2e10I6iPAJT7kicgt9";
+      
+            window.location.href = "https://checkout.stripe.com/c/pay/cs_test_a14BL4fVRIr29b3kT2jCUWbv8htW8my165rxzXiiIBc0Qyuov7pGebZAcN#fidkdWxOYHwnPyd1blpxYHZxWjA0SG9gNzBAfVBcR3BIbXFtZkBHPVFqTjFBM3NLdTNpQmJ2VWo8U0c8NklGVXVXUDFjalNDd3dDMzJ0Z3JRU0BxQXIzRzNONjFvNUNxVkZjV2hKV1BHRmwxNTV3UkZtUTRvRicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl";
         }
 
     }

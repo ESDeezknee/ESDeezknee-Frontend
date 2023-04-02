@@ -4,16 +4,20 @@
       <div class="header-left">
         <h2>Groups</h2>
       </div>
+      <div class="header-right">
+        <lottie-player src=https://assets7.lottiefiles.com/packages/lf20_tulr8tag.json background="transparent" speed="1"
+          style="width: 70px; height:70px;" loop autoplay></lottie-player>
+      </div>
     </div>
 
-    <div class="mission-cards">
+
       <span class="fw-semibold" style="font-size:x-small; color:#6B7280">AVAILABLE GROUPS:</span>
-      <div class="row flex-row">
+      <div class="mission-cards mb-1">
         <div class="col-12" v-for="broadcast in broadcast_listings" :key="broadcast.grouping_id" :group_id="broadcast.group_id" :broadcasted_group_id="broadcast.broadcasted_group_id">
           <div class="card border border-0">
             <div class="card-body bg-light">
-              <span class="card-title fw-bold" style="font-size:small">Group {{ broadcast.broadcasted_id }}</span><br>
-              <span style="font-size:x-small"><strong>Looking for:</strong> {{ broadcast.lf_pax }} pax</span><br>
+              <span class="card-title fw-bold" style="font-size:small;">Group {{ broadcast.broadcasted_id }}</span><br>
+              <span style="font-size:x-small"><strong>Looking For:</strong> {{ broadcast.lf_pax }} pax</span><br>
               <span style="font-size:x-small"><strong>Date of Visit:</strong> {{ new Date(broadcast.date_of_visit).toDateString() }}</span><br>
               <button
                 :class="[
@@ -21,7 +25,7 @@
                   broadcast.joined ? 'btn-secondary' : 'btn-success'
                 ]"
                 style="font-size:small;"
-                @click="joinGroup(currentGroupID, broadcast.broadcasted_group_id)"
+                @click="joinGroup(broadcast)"
                 :disabled="broadcast.joined"
               >
                 {{ broadcast.joined ? 'Group Joined' : 'Join Group' }}
@@ -29,15 +33,21 @@
             </div>
           </div>
         </div>
-      </div>
+
     </div>
+
+    <router-link to="/group" class="btn fw-semibold mb-2 w-100"
+      style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small"
+      onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
+      Return to Group
+    </router-link>
 
     <!-- Pop up message: join successful  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
       <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
       <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >Congratulations, you are now part of Group {{ broadcast.broadcasted_group_id }}.</p>
+      <p class="text-center" style="font-size:small;" >Congratulations, you are now part of Group {{ broadcast.broadcasted_id  }}.</p>
     </div>
 
     <!-- Pop up message: join failure  -->
@@ -53,6 +63,7 @@
 <script>
 import MobileTemplate from '../components/MobileTemplate.vue';
 import axios from 'axios';
+import { useAccountStore } from "@/stores/account";
 
 export default {
   props: {
@@ -69,18 +80,23 @@ export default {
     return {
       broadcast_listings: [],
       showFailure: false,
-      showSuccess: false
+      showSuccess: false,
     }
   },
+  setup() {
+    const accountStore = useAccountStore();
+    return { accountStore };
+  },
+
   created() {
     this.getBroadcastListings();
   },
   
-  computed: {
-    currentGroupID() {
-      return this.$store.getters.groupID;
-    }
-  },
+  // computed: {
+  //   currentGroupID() {
+  //     return this.$store.getters.groupID;
+  //   }
+  // },
 
   methods: {
     getBroadcastListings() {
@@ -94,22 +110,28 @@ export default {
           console.log(error);
         });
     },
-    joinGroup(group_id, broadcasted_group_id) {
+
+    joinGroup(broadcast) {
       const url = 'http://127.0.0.1:6104/handleGroup/join_group';
       const data = {
-        group_id,
-        broadcasted_group_id
+        grouping_id: this.accountStore.group,
+        broadcasted_id: broadcast.broadcasted_id
       };
+
       axios.post(url, data)
         .then(response => {
           console.log(response.data);
           this.showSuccess = true;
-          const joinedGroup = this.broadcast_listings.find(group => group.group_id === group_id && group.broadcasted_group_id === broadcasted_group_id);
-          if (joinedGroup) {
+          // const joinedGroup = this.broadcast_listings.find(group => group.group_id === group_id && group.broadcasted_group_id === broadcasted_group_id);
+          if (response.data.code === 200) {
             joinedGroup.joined = true;
+            this.showSuccess = true;
+    
+          }else if(response.data.code === 500){
+            this.showFailure = true;
           }
-          console.log(`Joining group with id: ${group_id}`);
-          this.$emit('group_id', group_id); // emit group_id event
+          // console.log(`Joining group with id: ${broadcast.broadcasted_id}`);
+          // this.$emit('group_id', group_id); // emit group_id event
         })
         .catch(error => {
           console.log(error);

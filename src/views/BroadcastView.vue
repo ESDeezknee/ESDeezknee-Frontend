@@ -54,8 +54,7 @@
 import axios from "axios";
 import MobileTemplate from "../components/MobileTemplate.vue";
 import { useAccountStore } from "@/stores/account";
-// {{this.accountStore.group_id}}
-// {{this.state.groupID}}
+
 
 export default {
     name: "BroadcastView",
@@ -91,7 +90,7 @@ export default {
           let errorMsg = "";
 
           const body = {
-            broadcasted_id: this.accountStore.group_id,
+            broadcasted_id: this.accountStore.group,
             lf_pax: lf_pax,
             date_of_visit: date_of_visit
           }

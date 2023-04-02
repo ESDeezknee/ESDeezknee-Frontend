@@ -25,7 +25,7 @@
                 placeholder="e.g. Looking for 5 guys..."></textarea>
             </div>
             <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
-              @click="createGroup">Confirm</button>
+              @click="createGroup(group_id)">Confirm</button>
           </form>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default {
     this.createGroup();
   },
   methods: {
-    createGroup() {
+    createGroup(group_id) {
       const no_of_pax = document.getElementById("no_of_pax").value;
       const description = document.getElementById("description").value;
       let errorMsg = "";
@@ -117,7 +117,7 @@ export default {
           else{
             this.groupID = response.data.data.group_obj.grouping_id;
             this.showNotification = true;
-            this.accountStore.addGroup(
+            this.accountStore.createGroup(
               this.groupID
             );
             // this.$store.dispatch('updateGroupID', this.groupID);

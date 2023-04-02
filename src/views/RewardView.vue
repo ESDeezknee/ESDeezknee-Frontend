@@ -41,6 +41,13 @@ L
       </div>
     </div>
 
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
+            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
+            <button @click="showSuccess= false; $router.push('/all-groups')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+            <hr>
+            <p class="text-center" style="font-size:small;" >Great effort! You have redeemed the reward. </p>
+     </div>
+
     <router-link to="/redemption" class="btn fw-semibold mb-2 w-100"
       style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small"
       onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
@@ -70,7 +77,8 @@ export default {
   data() {
     return {
       rewards: [],
-      loyalties: []
+      loyalties: [],
+      showSuccess: false
     };
   },
   setup() {
@@ -110,6 +118,7 @@ export default {
         .then((response) => {
           console.log(response.data.data);
           this.getLoyalties()
+          this.showSuccess = true;
         }).catch((error) => {
           console.log(error);
         });
