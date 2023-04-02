@@ -1,7 +1,7 @@
 <template>
   <MobileTemplate>
     <div class="mt-4">
-      <router-link to="/create-group" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
+      <router-link to="/group" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
         <i class="bi bi-chevron-left"></i>
       </router-link>
       <h5 class="d-flex justify-content-center">{{ title }}</h5>
@@ -22,7 +22,7 @@
             <div class="mb-3" style="font-size:small;">
               <label for="description" class="col form-label">Description:</label>
               <textarea class="form-control" id="description" v-model="description" rows="2" ref="descriptionInput"
-                placeholder="e.g. Looking for 5 guys..."></textarea>
+                placeholder="e.g. hello, i am ..."></textarea>
             </div>
             <button type="button" class="btn btn-success form-control mt-2 " style="color:white;"
               @click="createGroup(group_id)">Confirm</button>
@@ -93,7 +93,7 @@ export default {
       let errorMsg = "";
 
       const body = {
-        list_account: [1],
+        list_account: [this.accountStore.account.account_id],
         no_of_pax: no_of_pax,
         description: description,
         status: "Started",
