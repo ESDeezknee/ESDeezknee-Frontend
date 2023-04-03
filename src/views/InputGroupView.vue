@@ -32,7 +32,7 @@
       <!-- Pop-up upon confirmation-->
       <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
         <p class="notification-title d-flex justify-content-center" style="color: #38b000; font-size:large; font-weight:900;">
-          SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i>
+          SUCCESS! &nbsp;<span style="font-size: x-large">🤠</span>
         </p>
         <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
         <hr>
