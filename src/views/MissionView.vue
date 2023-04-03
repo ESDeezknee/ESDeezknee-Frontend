@@ -3,23 +3,23 @@
         <div class="container mt-4">
       <p class="head fw-bold mt-4" style="font-size: xx-large">{{ title }}</p>
       <span class="fw-normal" style="font-size: small">
-        Tired of waiting? Purchase your express tickets now to skip the long queues!
+        Embark on exciting challenges and earn valuable points that you can redeem for incredible rewards. All the best!
       </span>
       <div class="d-flex justify-content-center position-relative">
         <div class="lottie-wrapper rounded-circle">
           <lottie-player
-            src="https://assets10.lottiefiles.com/packages/lf20_mo3hbxtc.json"
+            src="https://assets8.lottiefiles.com/packages/lf20_iwlmrnb5.json"
             background="transparent"
             speed="1"
-            style="width: 200px; height: 200px"
+            style="width: 150px; height: 150px"
             loop
             autoplay
           >
           </lottie-player>
         </div>
       </div>
-      <router-link class="create-btn btn btn-primary" to="/payment-mode" style="color: white; font-size:small" >
-        Buy Express Tickets
+      <router-link class="create-btn btn btn-primary" to="/challenge" style="color: white; font-size:small" >
+        I'm Ready
       </router-link>
     </div>
         
@@ -45,7 +45,7 @@ export default{
     props: {
     title: {
       type: String,
-      default: "Ride",
+      default: "Challenge",
     },
   },
     created() {
@@ -71,5 +71,6 @@ export default{
     align-items: center;
     margin-bottom: 20px;
 }
+
 
 </style>

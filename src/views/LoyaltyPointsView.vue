@@ -24,14 +24,14 @@
             </div>
         </div>
 
-        <div class="text-center">
+        <!-- <div class="text-center">
             <router-link to="/payment-mode" class="fw-semibold mb-2 w-100"
             style="color: rgb(2 132 199); font-size:x-small"
             onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
             Cancel
         </router-link>
 
-        </div>
+        </div> -->
 
          <!-- Pop up message: redeem failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">

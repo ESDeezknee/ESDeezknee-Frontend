@@ -1,7 +1,6 @@
 <template>
-  <MobileTemplate>
+  <WithoutNavBar>
     <!-- content of mobile phone -->
-
     <div class="mobile-header justify-content-center">
       <lottie-player src=https://assets8.lottiefiles.com/packages/lf20_KvK0ZJBQzu.json background="transparent" speed="1"
         style="width: 200px; height:200px;" loop autoplay></lottie-player>
@@ -35,18 +34,18 @@
       <span class="me-1" style="font-size:small; color:#6B7280;">Don't have an account?</span><a href="#signup"
         class="ms-1" style="font-size:small;">Sign up</a>
     </div>
-  </MobileTemplate>
+  </WithoutNavBar>
 </template>
 
 <script>
 import { useAccountStore } from "@/stores/account";
-import MobileTemplate from "../components/MobileTemplate.vue";
+import WithoutNavBar from "@/components/WithoutNavBar.vue";
 import "@lottiefiles/lottie-player";
 
 export default {
   name: "LoginView",
   components: {
-    MobileTemplate,
+    WithoutNavBar
   },
   data() {
     return {
@@ -77,12 +76,36 @@ export default {
 </script>
 
 <style>
+input[type="email"],
+input[type="password"] {
+  font-size: small;
+}
+
+
 * {
   font-family: "Inter", sans-serif;
 }
 
-input[type="email"],
-input[type="password"] {
-  font-size: small;
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-weight: bold;
+  font-family: "Arial Rounded MT Bold", sans-serif;
+}
+
+.mobile-phone {
+  border: 10px solid #000000;
+  border-radius: 20px;
+  width: 340px; /* adjust width as needed */
+  /* height: 640px; adjust height as needed */
+  margin: auto;
+  padding: 20px;
+  overflow: scroll;
+  position: relative;
 }
 </style>

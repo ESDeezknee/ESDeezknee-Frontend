@@ -19,8 +19,8 @@
 
             <div class="d-flex flex-column align-items-center">
                 <div class="form-group">
-                <label for="promo-code" style="font-size:small;"><strong>Enter Promo Code:</strong></label>
-                <input type="text" class="form-control border border-secondary mt-3" id="promo-code"
+                <label for="promo_code" style="font-size:small;"><strong>Enter Promo Code:</strong></label>
+                <input type="text" class="form-control border border-secondary mt-3" id="promo_code" v-model="promo_code"
                 style="text-align:center;font-size:larger;border:none;">
                 </div>
             </div>
@@ -32,14 +32,14 @@
         </div>
     </div>  
 
-        <div class="text-center">
+        <!-- <div class="text-center">
             <router-link to="/payment-mode" class="fw-semibold mb-2 w-100"
             style="color: rgb(2 132 199); font-size:x-small"
             onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
             Cancel
         </router-link>
 
-        </div>
+        </div> -->
         
     </MobileTemplate>
 </template>
@@ -70,9 +70,11 @@ export default {
         payWithPromoCode() {
             const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id;
             const body = {
-            payment_method: 'promo',
+                payment_method: 'promo',
+                promo_code: '',
             };
-            axios.delete(api_url, {data: body})
+
+            axios.post(api_url, body)
             .then(response => {
                 console.log(response.data)
             })

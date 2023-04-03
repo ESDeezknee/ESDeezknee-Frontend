@@ -13,6 +13,7 @@ import RideView from "../views/RideView.vue";
 import PaymentModeView from "../views/PaymentModeView.vue";
 import LoyaltyPointsView from "../views/LoyaltyPointsView.vue";
 import PromoCodeView from "../views/PromoCodeView.vue";
+import MissionView from "../views/MissionView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,7 +88,14 @@ const router = createRouter({
       path: "/promo-code",
       name: "promo-code",
       component: PromoCodeView
-    }
+    },
+    {
+      path: "/mission",
+      name: "mission",
+      component: MissionView
+    },
+
+    
   ],
 });
 

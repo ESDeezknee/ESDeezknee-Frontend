@@ -7,12 +7,15 @@
         
         <div class="mobile-phone bg-white">
           <!-- content of mobile phone -->
-          <slot></slot>
+          <div style="overflow-y: auto; height: calc(100% - 10px);">
+            <slot></slot>
+          </div>
+
           <div class="bottom-nav">
-            <router-link to="/home" class="button">Home</router-link>
-            <router-link to="/group" class="button">Find Groups</router-link>
-            <router-link to="/ride" class="button">Express Tickets</router-link>
-            <router-link to="/challenge" class="button">Challenge & Rewards</router-link>
+            <router-link to="/home" class="button" style="font-size:x-small"><i class="bi bi-house"></i>&nbsp;Home</router-link>
+            <router-link to="/group" class="button" style="font-size:x-small"><i class="bi bi-search-heart"></i>&nbsp;Find Groups</router-link>
+            <router-link to="/ride" class="button" style="font-size:x-small"><i class="bi bi-ticket-perforated"></i>&nbsp;Buy Express</router-link>
+            <router-link to="/mission" class="button" style="font-size:x-small"> <i class="bi bi-gift"></i>&nbsp;Join Challenge</router-link>
           </div>
 
         </div>
@@ -23,7 +26,7 @@
 </template>
 
 <script>
-import axios from "axios";
+
 
 export default {
   name: "MobileTemplate",
@@ -52,10 +55,11 @@ h2 {
   border: 10px solid #000000;
   border-radius: 20px;
   width: 340px; /* adjust width as needed */
-  height: 640px; /* adjust height as needed */
+  /* height: 640px; adjust height as needed */
   margin: auto;
   padding: 20px;
   overflow: scroll;
+  position: relative;
 }
 
 .bottom-nav {
@@ -63,17 +67,33 @@ h2 {
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
-  position: sticky;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-decoration: none;
+  background-color: black;
+  padding: 18px 5px
 }
 
 .bottom-nav button {
+  flex-grow: 1; /* add this to make the buttons take equal width */
   border: none;
   background-color: black;
   font-size: 14px;
   font-weight: bold;
   color: white;
   text-transform: uppercase;
-  padding: 5px 10px;
+  padding: 30px;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: white;
+}
+
+.bottom-nav button:active {
+  color: #7f7f7f; /* change color when clicked */
 }
 
 </style>

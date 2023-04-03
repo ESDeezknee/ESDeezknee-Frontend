@@ -56,12 +56,11 @@ export default {
             const body = {
                 payment_method: 'external',
             };
-    
             axios.post(api_url, body)
                 .then(response => {
                     console.log(response.data)
-                    // this.checkout_session = response.data.checkout_url
-                    console.log(this.checkout_session)
+                    window.location.href = response.data.data.checkout_url
+                    console.log(response.data.data.checkout_url)
                 })
                 .catch(error => {
                     console.log(error);
