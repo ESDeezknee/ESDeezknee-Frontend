@@ -39,7 +39,7 @@
 
     <!-- Pop up message: join successful  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🥳</p>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">AWESOME &nbsp;<span style="font-size: x-large">🥳</span></p>
       <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >{{message}}.</p>
@@ -47,10 +47,10 @@
 
     <!-- Pop up message: join failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;😔</p>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR &nbsp;<span style="font-size: x-large">😔</span></p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >Failed to join group, please try again.</p>
+      <p class="text-center" style="font-size:small;" >Failed to join group, please try again!</p>
     </div>
   </MobileTemplate>
 </template>
