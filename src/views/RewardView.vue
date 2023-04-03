@@ -42,10 +42,17 @@ L
     </div>
 
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
-            <button @click="showSuccess= false; $router.push('/all-groups')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+            <p class="notification-title d-flex justify-content-center align-items-center fw-bolder text-success" style="font-size:MEDIUM">Reward Redeemed! &nbsp;<span style="font-size: x-large">🤠</span></p>
+            <button @click="showSuccess= false; $router.push('/reward')" type="button" class="btn btn-sm btn-close d-flex justify-content-right m-1" aria-label="Close"></button>
             <hr>
-            <p class="text-center" style="font-size:small;" >Great effort! You have redeemed the reward. </p>
+            <p class="text-center" style="font-size:small;" >Nice! You have redeemed the reward.</p>
+     </div>
+
+     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showError">
+            <p class="notification-title d-flex justify-content-center align-items-center fw-bolder text-danger" style="font-size:MEDIUM">Error Occured &nbsp;<span style="font-size: x-large">😢</span></p>
+            <button @click="showError= false; $router.push('/reward')" type="button" class="btn btn-sm btn-close d-flex justify-content-right m-1" aria-label="Close"></button>
+            <hr>
+            <p class="text-center" style="font-size:small;" >{{ errorMessage}}</p>
      </div>
 
     <router-link to="/redemption" class="btn fw-semibold mb-2 w-100"
@@ -78,7 +85,9 @@ export default {
     return {
       rewards: [],
       loyalties: [],
-      showSuccess: false
+      showSuccess: false,
+      showError: false,
+      errorMessage: ''
     };
   },
   setup() {
@@ -121,9 +130,10 @@ export default {
           this.showSuccess = true;
         }).catch((error) => {
           console.log(error);
+          this.showError = true;
+          this.errorMessage = error.response.data.message
         });
     },
-
     getRedemptionStatus(reward_id) {
       const url = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
       const body = {
