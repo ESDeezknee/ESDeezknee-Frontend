@@ -16,8 +16,8 @@
             <div class="card-body bg-light">
                 <div class="d-flex flex-column align-items-center">
                     <span style="font-size:small;"><strong>Price:</strong> {{price}}</span><br>
-                    <span style="font-size:small;"><strong>Points Available:</strong> {{this.points}}</span><br>
-                    <button class="btn btn-success w-100 mb-2" style="font-size:small;">
+                    <span style="font-size:small;"><strong>Points Available:</strong> {{available_points}}</span><br>
+                    <button class="btn btn-success w-100 mb-2" style="font-size:small;" @click="payWithLoyaltyPoints">
                         Redeem Now
                     </button>
                 </div>
@@ -33,15 +33,24 @@
 
         </div>
 
-         <!-- Pop up message: join failure  -->
+         <!-- Pop up message: redeem failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
       <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >You have insufficient points available to redeem the tickets.</p>
     </div>
+
+          <!-- Pop up message: redeem success -->
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#38b000">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
+      <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <hr>
+      <p class="text-center" style="font-size:small;" >You have redeemed the express ticket with your loyalty points.</p>
+    </div>
         
     </MobileTemplate>
+
 </template>
 
 
@@ -64,8 +73,10 @@ export default {
     data() {
         return {
             price: "8.00 SGD",
-            points: '' ,
+            available_points: '' ,
             showFailure: false,
+            showSuccess: false,
+            isRedeemClicked: false,
 
         };
     },
@@ -74,23 +85,32 @@ export default {
 
     return { accountStore };
   },
-    async created () {
-        this.getLoyaltyPoints();
-    },
     methods:{
-        getLoyaltyPoints(){
-            const url = "http://127.0.0.1:6201/order/get_payment_method/4";
-
-            axios.post(url)
-            .then((response) => {
+        payWithLoyaltyPoints() {
+            const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id ;
+            const body = {
+                payment_method: 'loyalty',
+            };
+            axios.post(api_url, body)
+            .then(response => {
                 console.log(response.data)
-                this.points = response.data.available_points;
-                // console.log(this.points)
-                this.showFailure = false;
+
+                this.available_points = response.data.available_points
+
+                if(response.data.code === 200){
+                    this.showSuccess = true;
+                }
+                else if(response.data.code === 405){
+                    this.showFailure = true;
+                }else{
+                    this.showFailure = true;
+                }
+
+                this.isRedeemClicked = true; 
                 
             })
-            .catch((error) => {
-                console.log(error.message);
+            .catch(error => {
+                console.log(error);
                 this.showFailure = true;
             });
         },
@@ -104,6 +124,28 @@ export default {
 
 * {
   font-family: 'Inter', sans-serif;
+}
+
+.notification-box {
+  position: relative;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-left: 8px;
+  margin-bottom: 20px;
+  margin-top: -55px;
+  max-width: 250px;
+  width: 100%;
+}
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 </style>

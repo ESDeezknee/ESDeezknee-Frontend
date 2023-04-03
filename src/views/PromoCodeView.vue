@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-success w-100 mb-2 mt-4 " style="font-size:small;">
+            <button class="btn btn-success w-100 mb-2 mt-4 " style="font-size:small;" @click="payWithPromoCode">
                 Redeem Now
             </button>
 
@@ -46,6 +46,8 @@
 
 <script>
 import MobileTemplate from '../components/MobileTemplate.vue';
+import { useAccountStore } from "@/stores/account";
+import axios from 'axios';
 
 export default {
     name: 'PaymentModeView',
@@ -58,6 +60,28 @@ export default {
             default: 'Redeem Promo Code'
         }
     },
+    setup() {
+    const accountStore = useAccountStore();
+
+    return { accountStore };
+  },
+ 
+    methods:{
+        payWithPromoCode() {
+            const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id;
+            const body = {
+            payment_method: 'promo',
+            };
+            axios.delete(api_url, {data: body})
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+
+    }
 }
 </script>
 

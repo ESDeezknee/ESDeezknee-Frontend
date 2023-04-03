@@ -11,7 +11,7 @@
             <div class="card-body bg-light">
                 <div class="d-flex flex-column align-items-center mt-4">
                 <p style="font-size: small"><strong>Please select a payment method:</strong></p>
-                <button class="btn btn-primary mb-2 w-100 mt-3" style="font-size:small" @click="redirectToStripeCheckout">Credit Card (Stripe)</button>
+                <button class="btn btn-primary mb-2 w-100 mt-3" style="font-size:small" @click="payWithStripe">Credit Card (Stripe)</button>
                 <router-link to="/loyalty-points" class="btn btn-primary mb-2 w-100 mt-4" style="font-size:small">Loyalty Points</router-link>
                 <router-link to="/promo-code" class="btn btn-primary w-100 mt-4 mb-3" style="font-size:small">Promo Code</router-link>
                 </div>
@@ -26,6 +26,7 @@
 
 <script>
 import MobileTemplate from '../components/MobileTemplate.vue';
+import { useAccountStore } from "@/stores/account";
 import axios from 'axios';
 
 export default {
@@ -44,18 +45,33 @@ export default {
             default: 'Modes of Payment'
         }
     },
-    created() {
-        // this.getPaymentModes();
-    },
-    methods: {
-        redirectToStripeCheckout() {
-      
-            window.location.href = "https://checkout.stripe.com/c/pay/cs_test_a14BL4fVRIr29b3kT2jCUWbv8htW8my165rxzXiiIBc0Qyuov7pGebZAcN#fidkdWxOYHwnPyd1blpxYHZxWjA0SG9gNzBAfVBcR3BIbXFtZkBHPVFqTjFBM3NLdTNpQmJ2VWo8U0c8NklGVXVXUDFjalNDd3dDMzJ0Z3JRU0BxQXIzRzNONjFvNUNxVkZjV2hKV1BHRmwxNTV3UkZtUTRvRicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl";
-        }
+    setup() {
+    const accountStore = useAccountStore();
 
+    return { accountStore };
+  },
+    methods: {
+        payWithStripe() {
+            const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id;
+            const body = {
+                payment_method: 'external',
+            };
+            axios.post(api_url, body)
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
     }
+    
 }
 </script>
+
+
+
+
 
 <style>
 * {
