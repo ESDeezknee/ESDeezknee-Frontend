@@ -1,17 +1,25 @@
 <template>
-  <div class="container">
+  <!-- <div class="container"> -->
     <div
       class="row justify-content-center align-items-center"
-      style="height: 100vh"
-    >
+      style="height: 100vh">
       <div class="">
+        
         <div class="mobile-phone bg-white">
           <!-- content of mobile phone -->
           <slot></slot>
+          <div class="bottom-nav">
+            <router-link to="/" class="button">Home</router-link>
+            <router-link to="/group" class="button">Find Groups</router-link>
+            <router-link to="/ride" class="button">Express Tickets</router-link>
+            <router-link to="/group" class="button">Challenge & Rewards</router-link>
+          </div>
+
         </div>
+        
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -49,4 +57,23 @@ h2 {
   padding: 20px;
   overflow: scroll;
 }
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  position: sticky;
+}
+
+.bottom-nav button {
+  border: none;
+  background-color: black;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+
 </style>

@@ -19,10 +19,16 @@
               <span class="card-title fw-bold" style="font-size:small;">Group {{ broadcast.broadcasted_id }}</span><br>
               <span style="font-size:x-small"><strong>Looking For:</strong> {{ broadcast.lf_pax }} pax</span><br>
               <span style="font-size:x-small"><strong>Date of Visit:</strong> {{ new Date(broadcast.date_of_visit).toDateString() }}</span><br>
-              <button :class="['btn w-100 mt-2', broadcast.joined ? 'btn-secondary' : 'btn-success']"
-                style="font-size:small;" @click="joinGroup(broadcast.broadcasted_id)" :disabled="broadcast.joined">
-                {{ broadcast.joined? 'Group Joined' : 'Join Group' }}
-              </button>
+              <button :class="[
+              'btn w-100 mt-2',
+              broadcast.joined ? 'btn-secondary' : (showSuccess ? 'btn-secondary' : 'btn-success')
+            ]"
+            style="font-size:small;"
+            @click="joinGroup(broadcast.broadcasted_id)"
+            :disabled="broadcast.joined">
+              {{ broadcast.joined ? 'Group Joined' : (showSuccess ? 'Group Joined' : 'Join Group') }}
+            </button>
+
             </div>
           </div>
         </div>

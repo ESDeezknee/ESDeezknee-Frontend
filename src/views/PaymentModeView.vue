@@ -56,6 +56,7 @@ export default {
             const body = {
                 payment_method: 'external',
             };
+            // axios.defaults.headers.common['Authorization'] = 'sk_test_51Mje25ExUYBuMhthy0bqpXVWnlkZCIaXAXYGZnywGjHeaXHJt10zluQUIdouAkoTDwPGhl5qgFJjStOUJODO1uyH00nseC9g53';
             axios.post(api_url, body)
                 .then(response => {
                     console.log(response.data)
@@ -67,6 +68,7 @@ export default {
     }
     
 }
+
 </script>
 
 
