@@ -2,7 +2,7 @@
 
     <MobileTemplate>
         <div class="mt-4 ">
-            <router-link to="/ride" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
+            <router-link to="/" class="back-btn mb-2 w-20 bg-light border-0 " style="font-size:x-small; font-weight: 900;">
                 <i class="bi bi-chevron-left"></i>
             </router-link>
             <h5 class="d-flex justify-content-center mt-4">{{ title }}</h5>
