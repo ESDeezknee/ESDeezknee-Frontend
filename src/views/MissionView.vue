@@ -3,7 +3,7 @@
         <div class="container mt-4">
       <p class="head fw-bold mt-4" style="font-size: xx-large">{{ title }}</p>
       <span class="fw-normal" style="font-size: small">
-        Embark on exciting challenges and earn valuable points that you can redeem for incredible rewards. All the best!
+        Embark on exciting challenges and earn valuable points that you can redeem for incredible rewards. All the best! 
       </span>
       <div class="d-flex justify-content-center position-relative">
         <div class="lottie-wrapper rounded-circle">

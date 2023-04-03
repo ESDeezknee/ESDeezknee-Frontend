@@ -32,14 +32,23 @@
         </div>
     </div>  
 
-        <!-- <div class="text-center">
-            <router-link to="/payment-mode" class="fw-semibold mb-2 w-100"
-            style="color: rgb(2 132 199); font-size:x-small"
-            onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
-            Cancel
-        </router-link>
+    <!-- Pop up message: join successful  -->
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🤩</p>
+      <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <hr>
+      <p class="text-center" style="font-size:small;" >{{message}}.</p>
+    </div>
 
-        </div> -->
+    <!-- Pop up message: join failure  -->
+    <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;😕</p>
+      <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <hr>
+      <p class="text-center" style="font-size:small;" >Failed to join redeem with promo code. Please try again!</p>
+    </div>
+
+
         
     </MobileTemplate>
 </template>
@@ -53,6 +62,15 @@ export default {
     name: 'PaymentModeView',
     components: {
         MobileTemplate
+    },
+    data() {
+        return {
+            title: 'Redeem Promo Code',
+            promo_code: '',
+            showSuccess: false,
+            showFailure: false,
+            message: '',
+        }
     },
     props: {
         title: {
@@ -71,15 +89,24 @@ export default {
             const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id;
             const body = {
                 payment_method: 'promo',
-                promo_code: '',
+                promo_code: this.promo_code,
             };
 
             axios.post(api_url, body)
             .then(response => {
                 console.log(response.data)
+                this.message = response.data.message
+                const promo = response.data.data.promo_code
+                
+                if(this.promo_code !== promo){
+                    this.showFailure = true
+                }else{
+                    this.showSuccess = true
+                }
             })
             .catch(error => {
                 console.log(error);
+                this.showFailure = true
             });
         },
 
@@ -88,4 +115,30 @@ export default {
 </script>
 
 <style>
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.notification-box {
+  position: relative;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-left: 8px;
+  margin-bottom: 20px;
+  margin-top: -55px;
+  max-width: 250px;
+  width: 100%;
+}
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 </style>
