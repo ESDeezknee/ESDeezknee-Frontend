@@ -18,7 +18,7 @@
           </lottie-player>
         </div>
       </div>
-      <router-link class="create-btn btn btn-success" to="/payment-mode" style="color: white; font-size:small" >
+      <router-link class="create-btn btn btn-primary" to="/payment-mode" style="color: white; font-size:small" >
         Buy Express Tickets
       </router-link>
     </div>

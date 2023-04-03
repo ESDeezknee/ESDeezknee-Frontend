@@ -20,7 +20,7 @@
           </lottie-player>
         </div>
       </div>
-      <router-link class="create-btn btn btn-success" to="/input-group" style="color: white; font-size:small">
+      <router-link class="create-btn btn btn-primary" to="/input-group" style="color: white; font-size:small">
         Create Group</router-link>
 
     </div>

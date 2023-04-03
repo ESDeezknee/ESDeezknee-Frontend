@@ -67,7 +67,7 @@ export default {
           this.email
         );
 
-        this.$router.push("/reward");
+        this.$router.push("/home");
       } catch (error) {
         console.log(error.message)
       }

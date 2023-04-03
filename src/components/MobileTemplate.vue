@@ -9,10 +9,10 @@
           <!-- content of mobile phone -->
           <slot></slot>
           <div class="bottom-nav">
-            <router-link to="/" class="button">Home</router-link>
+            <router-link to="/home" class="button">Home</router-link>
             <router-link to="/group" class="button">Find Groups</router-link>
             <router-link to="/ride" class="button">Express Tickets</router-link>
-            <router-link to="/group" class="button">Challenge & Rewards</router-link>
+            <router-link to="/challenge" class="button">Challenge & Rewards</router-link>
           </div>
 
         </div>
