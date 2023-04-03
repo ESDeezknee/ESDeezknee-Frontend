@@ -20,10 +20,10 @@
               <span style="font-size:x-small"><strong>Looking For:</strong> {{ broadcast.lf_pax }} pax</span><br>
               <span style="font-size:x-small"><strong>Date of Visit:</strong> {{ new Date(broadcast.date_of_visit).toDateString() }}</span><br>
               
-              <button :class="['btn w-100 mt-2', broadcast.joined ? 'btn-secondary' : (showSuccess ? 'btn-secondary' : 'btn-success')]"
-                      style="font-size:small;" @click="joinGroup(broadcast.broadcasted_id)" :disabled="broadcast.joined">
-                {{ broadcast.joined ? 'Group Joined' : (showSuccess ? 'Group Joined' : 'Join Group') }}
-              </button>
+              <button :class="['btn w-100 mt-2', buttonClass]"
+                    style="font-size:small;" @click="joinGroup(broadcast.broadcasted_id)" :disabled="broadcast_joined">
+              {{ broadcast_joined ? 'Group Joined' : (showSuccess ? 'Group Joined' : 'Join Group') }}
+            </button>
 
             </div>
           </div>
@@ -39,7 +39,7 @@
 
     <!-- Pop up message: join successful  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🥳</p>
       <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >{{message}}.</p>
@@ -47,7 +47,7 @@
 
     <!-- Pop up message: join failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;😔</p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >Failed to join group, please try again.</p>
@@ -77,6 +77,7 @@ export default {
       showFailure: false,
       showSuccess: false,
       message: '',
+      broadcast_joined: false
     }
   },
   setup() {
@@ -87,7 +88,17 @@ export default {
   created() {
     this.getBroadcastListings();
   },
-  
+  computed: {
+  buttonClass() {
+    if (this.broadcast_joined) {
+      return 'btn-secondary';
+    } else if (this.showSuccess) {
+      return 'btn-secondary';
+    } else {
+      return 'btn-success';
+    }
+  }
+},
 
   methods: {
     getBroadcastListings() {
@@ -115,6 +126,7 @@ export default {
           if (response.data.code === 200) {
             this.showSuccess = true;
             this.message = response.data.message;
+            this.broadcast_joined = true;
     
           }else if(response.data.code === 500){
             this.showFailure = true;
