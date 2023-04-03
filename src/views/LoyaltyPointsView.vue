@@ -15,8 +15,8 @@
       
             <div class="card-body bg-light">
                 <div class="d-flex flex-column align-items-center">
-                    <span style="font-size:small;"><strong>Price:</strong> {{price}}</span><br>
-                    <span style="font-size:small;"><strong>Points Available:</strong> {{available_points}}</span><br>
+                    <span style="font-size:small;"><strong>Price of Ticket:</strong> {{price}}</span><br>
+                    <span style="font-size:small;"><strong>Points Required:</strong> {{points}}</span><br>
                     <button class="btn btn-success w-100 mb-2" style="font-size:small;" @click="payWithLoyaltyPoints">
                         Redeem Now
                     </button>
@@ -38,7 +38,7 @@
       <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >You have insufficient points available to redeem the tickets.</p>
+      <p class="text-center" style="font-size:small;" >Oops, you have insufficient points available to redeem the tickets.</p>
     </div>
 
           <!-- Pop up message: redeem success -->
@@ -46,7 +46,7 @@
       <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#38b000">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
       <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >You have redeemed the express ticket with your loyalty points.</p>
+      <p class="text-center" style="font-size:small;" >You have redeemed the express ticket with your loyalty points! <br>You are left with <b>{{ available_points }} points</b>.</p>
     </div>
         
     </MobileTemplate>
@@ -73,7 +73,7 @@ export default {
     data() {
         return {
             price: "8.00 SGD",
-            available_points: '' ,
+            points: "500 points",
             showFailure: false,
             showSuccess: false,
             isRedeemClicked: false,
@@ -85,7 +85,9 @@ export default {
 
     return { accountStore };
   },
+
     methods:{
+
         payWithLoyaltyPoints() {
             const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id ;
             const body = {
@@ -99,11 +101,16 @@ export default {
 
                 if(response.data.code === 200){
                     this.showSuccess = true;
+                    this.available_points = response.data.available_points
                 }
                 else if(response.data.code === 405){
                     this.showFailure = true;
+                    this.available_points = response.data.available_points
+
                 }else{
                     this.showFailure = true;
+                    this.available_points = response.data.available_points
+                
                 }
 
                 this.isRedeemClicked = true; 
@@ -111,6 +118,7 @@ export default {
             })
             .catch(error => {
                 console.log(error);
+                this.available_points = error.request.response.available_points
                 this.showFailure = true;
             });
         },

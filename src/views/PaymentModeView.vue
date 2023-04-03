@@ -56,10 +56,12 @@ export default {
             const body = {
                 payment_method: 'external',
             };
-            // axios.defaults.headers.common['Authorization'] = 'sk_test_51Mje25ExUYBuMhthy0bqpXVWnlkZCIaXAXYGZnywGjHeaXHJt10zluQUIdouAkoTDwPGhl5qgFJjStOUJODO1uyH00nseC9g53';
+    
             axios.post(api_url, body)
                 .then(response => {
                     console.log(response.data)
+                    // this.checkout_session = response.data.checkout_url
+                    console.log(this.checkout_session)
                 })
                 .catch(error => {
                     console.log(error);
