@@ -102,7 +102,7 @@ export default {
 
   methods: {
     getBroadcastListings() {
-      const apiUrl = 'http://127.0.0.1:6104/handleGroup/broadcast_listings';
+      const apiUrl = 'http://127.0.0.1:8000/api/v1/handleGroup/broadcast_listings';
       axios.get(apiUrl)
         .then(response => {
           this.broadcast_listings = response.data.data.notice;
@@ -114,7 +114,7 @@ export default {
     },
 
     joinGroup(broadcasted_id) {
-      const url = 'http://127.0.0.1:6104/handleGroup/join_group';
+      const url = 'http://127.0.0.1:8000/api/v1/handleGroup/join_group';
       const data = {
         grouping_id: this.accountStore.group,
         broadcasted_id: broadcasted_id

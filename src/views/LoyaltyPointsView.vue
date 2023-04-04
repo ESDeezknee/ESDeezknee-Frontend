@@ -89,7 +89,7 @@ export default {
     methods:{
 
         payWithLoyaltyPoints() {
-            const api_url = "http://127.0.0.1:6201/order/get_payment_method/" + this.accountStore.account.account_id ;
+            const api_url = "http://127.0.0.1:8000/api/v1/order/get_payment_method/" + this.accountStore.account.account_id ;
             const body = {
                 payment_method: 'loyalty',
             };

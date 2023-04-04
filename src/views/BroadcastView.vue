@@ -98,7 +98,7 @@ export default {
 
           // GET GROUP_ID FROM ACCOUNT STORE
           
-          axios.post("http://127.0.0.1:6104/handleGroup/broadcast", body)
+          axios.post("http://127.0.0.1:8000/api/v1/handleGroup/broadcast", body)
           .then((response) => {
               console.log(this.lf_pax)
               console.log(this.date_of_visit)

@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async getRewards() {
-      const apiUrl = "http://127.0.0.1:6303/reward/active";
+      const apiUrl = "http://127.0.0.1:8000/api/v1/reward/active";
       await axios.get(apiUrl).then((response) => {
         this.rewards = response.data.data.rewards;
         // console.log(response.data.data);
@@ -79,7 +79,7 @@ export default {
       });
     },
     async getRedemptions() {
-      const apiUrl = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
+      const apiUrl = "http://127.0.0.1:8000/api/v1/redemption/account/" + this.accountStore.account.account_id;
       await axios.get(apiUrl).then((response) => {
         const redemptions = response.data.data.redemptions;
 

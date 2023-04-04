@@ -80,7 +80,7 @@ export default {
       return Math.abs(Math.round(diff));
     },
     async getMissions() {
-      const apiUrl = "http://127.0.0.1:6300/mission/active";
+      const apiUrl = "http://127.0.0.1:8000/api/v1/mission/active";
       await axios.get(apiUrl).then((response) => {
         this.missions = response.data.data.missions;
         // console.log(response.data.data);
@@ -89,7 +89,7 @@ export default {
       });
     },
     async getChallenges() {
-      const apiUrl = "http://127.0.0.1:6302/challenge/account/" + this.accountStore.account.account_id;
+      const apiUrl = "http://127.0.0.1:8000/api/v1/challenge/account/" + this.accountStore.account.account_id;
       await axios.get(apiUrl).then((response) => {
         const challenges = response.data.data.challenges;
 

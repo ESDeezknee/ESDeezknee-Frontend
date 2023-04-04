@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     getRewards() {
-      const apiUrl = "http://127.0.0.1:6303/reward/active";
+      const apiUrl = "http://127.0.0.1:8000/api/v1/reward/active";
       axios.get(apiUrl).then((response) => {
         this.rewards = response.data.data.rewards;
         // console.log(this.rewards);
@@ -110,7 +110,7 @@ export default {
       });
     },
     getLoyalties() {
-      const apiUrl = "http://127.0.0.1:6301/loyalty/" + this.accountStore.account.account_id;
+      const apiUrl = "http://127.0.0.1:8000/api/v1/loyalty/" + this.accountStore.account.account_id;
       axios.get(apiUrl).then((response) => {
         this.loyalties = response.data.data;
       }).catch((error) => {
@@ -118,7 +118,7 @@ export default {
       });
     },
     createRedemption(reward_id) {
-      const url = "http://127.0.0.1:6304/redemption";
+      const url = "http://127.0.0.1:8000/api/v1/redemption";
       const body = {
         "reward_id": reward_id,
         "account_id": this.accountStore.account.account_id,
@@ -135,7 +135,7 @@ export default {
         });
     },
     getRedemptionStatus(reward_id) {
-      const url = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
+      const url = "http://127.0.0.1:8000/api/v1/redemption/account/" + this.accountStore.account.account_id;
       const body = {
         "reward_id": reward_id,
         "account_id": this.accountStore.account.account_id,

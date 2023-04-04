@@ -99,7 +99,7 @@ export default {
         status: "Started",
       }
       
-      axios.post("http://127.0.0.1:6104/handleGroup/create", body)
+      axios.post("http://127.0.0.1:8000/api/v1/handleGroup/create", body)
         .then((response) => {
           console.log(this.no_of_pax)
           console.log(this.description)
