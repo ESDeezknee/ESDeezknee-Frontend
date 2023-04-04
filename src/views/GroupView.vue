@@ -4,8 +4,8 @@
     <div class="container mt-4">
       <p class="head fw-bold mt-4" style="font-size: xx-large">{{ title }}</p>
       <span class="fw-normal" style="font-size: small">
-        Connect with others by either creating your own group or joining existing ones.
-        Let's get started!
+        Connect with others by either creating your own group or joining
+        existing ones. Let's get started!
       </span>
       <div class="d-flex justify-content-center position-relative">
         <div class="lottie-wrapper rounded-circle">
@@ -20,9 +20,13 @@
           </lottie-player>
         </div>
       </div>
-      <router-link class="create-btn btn btn-primary" to="/input-group" style="color: white; font-size:small">
-        Create Group</router-link>
-
+      <router-link
+        class="create-btn btn btn-primary"
+        to="/input-group"
+        style="color: white; font-size: small"
+      >
+        Create Group</router-link
+      >
     </div>
   </MobileTemplate>
 </template>

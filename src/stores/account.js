@@ -7,8 +7,8 @@ export const useAccountStore = defineStore("account", {
     const persistedState = JSON.parse(localStorage.getItem("accountStore")) || {
       loggedIn: false,
       account: null,
-      group: '',
-      queue: ''
+      group: "",
+      queue: "",
     };
     return persistedState;
   },
@@ -39,9 +39,9 @@ export const useAccountStore = defineStore("account", {
       this.group = group_id;
       this.saveState();
     },
-    createQueue(queue_id){
+    createQueue(queue_id) {
       this.queue = queue_id;
       this.saveState();
-    }
+    },
   },
 });
