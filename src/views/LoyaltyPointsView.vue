@@ -35,16 +35,16 @@
 
          <!-- Pop up message: redeem failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;<i class="bi bi-emoji-frown"></i></p>
-      <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;😔</p>
+      <button @click="showFailure = false;" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >Oops, you have insufficient points available to redeem the tickets.</p>
     </div>
 
           <!-- Pop up message: redeem success -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#38b000">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
-      <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#38b000">SUCCESS! &nbsp;🥳</p>
+      <button @click="showSuccess = false; $router.push('/queue-ticket')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >You have redeemed the express ticket with your loyalty points! <br>You are left with <b>{{ available_points }} points</b>.</p>
     </div>
@@ -99,9 +99,15 @@ export default {
 
                 this.available_points = response.data.available_points
 
+
                 if(response.data.code === 200){
                     this.showSuccess = true;
                     this.available_points = response.data.available_points
+                    this.queue = response.data.queue_id
+                    this.accountStore.createQueue(
+                       this.queue 
+                    );
+                    console.log(this.queue)
                 }
                 else if(response.data.code === 405){
                     this.showFailure = true;
@@ -110,17 +116,23 @@ export default {
                 }else{
                     this.showFailure = true;
                     this.available_points = response.data.available_points
-                
                 }
 
                 this.isRedeemClicked = true; 
+                // this.queue = response.queue_id
+                //     this.accountStore.createQueue(
+                //        this.queue
+                //     );
+                //     console.log(this.queue)
+    
                 
             })
             .catch(error => {
                 console.log(error);
-                this.available_points = error.request.response.available_points
+                this.available_points = error.available_points
                 this.showFailure = true;
             });
+            
         },
     }
 }

@@ -8,6 +8,7 @@ export const useAccountStore = defineStore("account", {
       loggedIn: false,
       account: null,
       group: '',
+      queue: ''
     };
     return persistedState;
   },
@@ -36,6 +37,10 @@ export const useAccountStore = defineStore("account", {
     },
     createGroup(group_id) {
       this.group = group_id;
+      this.saveState();
+    },
+    createQueue(queue_id){
+      this.queue = queue_id;
       this.saveState();
     }
   },

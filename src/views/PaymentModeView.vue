@@ -56,11 +56,22 @@ export default {
             const body = {
                 payment_method: 'external',
             };
+
             axios.post(api_url, body)
                 .then(response => {
                     console.log(response.data)
-                    window.location.href = response.data.data.checkout_url
+
+                    this.queue = response.data.queue_id
+
+                    this.accountStore.createQueue(
+                        this.queue 
+                    );
+                    console.log(this.queue)
+
+                    setTimeout(() => { window.location.href = response.data.data.checkout_url }, 1000);
                     console.log(response.data.data.checkout_url)
+
+                
                 })
                 .catch(error => {
                     console.log(error);

@@ -40,7 +40,7 @@
 
         <!-- Pop up message: broadcast successful -->
         <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
-            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;<i class="bi bi-emoji-smile"></i></p>
+            <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🤗</p>
             <button @click="showSuccess= false; $router.push('/all-groups')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
             <hr>
             <p class="text-center" style="font-size:small;" >We will notify you when someone joins your group. </p>

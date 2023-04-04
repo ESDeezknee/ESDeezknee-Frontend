@@ -12,10 +12,10 @@
           </div>
 
           <div class="bottom-nav">
-            <router-link to="/home" class="button" style="font-size:x-small"><i class="bi bi-house"></i>&nbsp;Home</router-link>
-            <router-link to="/group" class="button" style="font-size:x-small"><i class="bi bi-search-heart"></i>&nbsp;Find Groups</router-link>
-            <router-link to="/ride" class="button" style="font-size:x-small"><i class="bi bi-ticket-perforated"></i>&nbsp;Buy Express</router-link>
-            <router-link to="/mission" class="button" style="font-size:x-small"> <i class="bi bi-gift"></i>&nbsp;Join Challenge</router-link>
+            <router-link to="/home" class="button mx-auto" style="color: black"><i class="bi bi-house"></i></router-link>
+            <router-link to="/group" class="button mx-auto" style="color: black"><i class="bi bi-search-heart"></i></router-link>
+            <router-link to="/ride" class="button mx-auto" style="color: black"><i class="bi bi-ticket-perforated"></i></router-link>
+            <router-link to="/mission" class="button mx-auto" style="color: black"> <i class="bi bi-gift"></i></router-link>
           </div>
 
         </div>
@@ -72,19 +72,22 @@ h2 {
   left: 0;
   right: 0;
   text-decoration: none;
-  background-color: black;
-  padding: 18px 5px
+  background-color: white;
+  padding: 18px 5px;
+  margin-top: gray;
+
 }
 
 .bottom-nav button {
   flex-grow: 1; /* add this to make the buttons take equal width */
   border: none;
-  background-color: black;
+  background-color: gray;
   font-size: 14px;
   font-weight: bold;
   color: white;
   text-transform: uppercase;
   padding: 30px;
+
 }
 
 .bottom-nav a {

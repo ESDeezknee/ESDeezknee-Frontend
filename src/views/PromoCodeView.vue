@@ -35,9 +35,9 @@
     <!-- Pop up message: join successful  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
       <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🤩</p>
-      <button @click="showSuccess = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
+      <button @click="showSuccess = false; ; $router.push('/queue-ticket')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >{{message}}.</p>
+      <p class="text-center" style="font-size:small;" >{{pass_message}}</p>
     </div>
 
     <!-- Pop up message: join failure  -->
@@ -45,7 +45,7 @@
       <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp;😕</p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >Failed to join redeem with promo code. Please try again!</p>
+      <p class="text-center" style="font-size:small;" >{{fail_message}}</p>
     </div>
 
 
@@ -69,7 +69,8 @@ export default {
             promo_code: '',
             showSuccess: false,
             showFailure: false,
-            message: '',
+            pass_message: '',
+            fail_message: ''
         }
     },
     props: {
@@ -95,18 +96,36 @@ export default {
             axios.post(api_url, body)
             .then(response => {
                 console.log(response.data)
-                this.message = response.data.message
-                const promo = response.data.data.promo_code
-                
-                if(this.promo_code !== promo){
+                const promo = response.data.data.promo_code // the code that the user has 
+
+                console.log('user has this code:' + promo)
+                console.log('user keyed in:' + this.promo_code)
+
+                if(this.promo_code == ''){
+                    this.fail_message = 'Please enter a promo code.'
+                    this.showFailure = true
+                }else if(this.promo_code !== promo){
+                    this.fail_message = 'You have keyed in an invalid promo code. Please try again.'
                     this.showFailure = true
                 }else{
+                    const msg = response.data.message
+                    this.pass_message = msg + "!"
                     this.showSuccess = true
+                    this.queue = response.data.queue_id
+                    this.accountStore.createQueue(
+                       this.queue 
+                    );
+                    console.log(this.queue)
                 }
-            })
+            
+                }
+
+            )
             .catch(error => {
                 console.log(error);
+                this.fail_message = "Failed to redeem promo code. Please try again."
                 this.showFailure = true
+
             });
         },
 

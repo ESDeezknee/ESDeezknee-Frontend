@@ -14,6 +14,7 @@ import PaymentModeView from "../views/PaymentModeView.vue";
 import LoyaltyPointsView from "../views/LoyaltyPointsView.vue";
 import PromoCodeView from "../views/PromoCodeView.vue";
 import MissionView from "../views/MissionView.vue";
+import QueueTicketView from "../views/QueueTicketView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -94,6 +95,11 @@ const router = createRouter({
       name: "mission",
       component: MissionView
     },
+    {
+      path: '/queue-ticket',
+      name: 'queue-ticket',
+      component: QueueTicketView
+    }
 
     
   ],
