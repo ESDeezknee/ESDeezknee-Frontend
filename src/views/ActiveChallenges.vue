@@ -79,18 +79,18 @@ export default {
       diff /= (60 * 60);
       return Math.abs(Math.round(diff));
     },
-    getMissions() {
+    async getMissions() {
       const apiUrl = "http://127.0.0.1:6300/mission/active";
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         this.missions = response.data.data.missions;
         // console.log(response.data.data);
       }).catch((error) => {
         console.log(error);
       });
     },
-    getChallenges() {
+    async getChallenges() {
       const apiUrl = "http://127.0.0.1:6302/challenge/account/" + this.accountStore.account.account_id;
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         const challenges = response.data.data.challenges;
 
         const challengesWithMissions = challenges.map((challenge) => {
@@ -158,7 +158,7 @@ export default {
   align-items: center;
   font-size: x-small;
   text-align: center;
-  font-weight: 900;
+  font-weight: 700;
   padding: 0;
   height: 20px;
 }

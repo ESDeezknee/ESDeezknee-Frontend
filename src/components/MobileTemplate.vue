@@ -1,33 +1,41 @@
 <template>
   <!-- <div class="container"> -->
-    <div
-      class="row justify-content-center align-items-center"
-      style="height: 100vh">
-      <div class="">
-        
-        <div class="mobile-phone bg-white">
-          <!-- content of mobile phone -->
-          <div style="overflow-y: auto; height: calc(100% - 10px);">
-            <slot></slot>
-          </div>
-
-          <div class="bottom-nav">
-            <router-link to="/home" class="button mx-auto" style="color: black"><i class="bi bi-house"></i></router-link>
-            <router-link to="/group" class="button mx-auto" style="color: black"><i class="bi bi-search-heart"></i></router-link>
-            <router-link to="/ride" class="button mx-auto" style="color: black"><i class="bi bi-ticket-perforated"></i></router-link>
-            <router-link to="/mission" class="button mx-auto" style="color: black"> <i class="bi bi-gift"></i></router-link>
-          </div>
-
+  <div
+    class="row justify-content-center align-items-center"
+    style="height: 100vh"
+  >
+    <div class="">
+      <div class="mobile-phone bg-white">
+        <!-- content of mobile phone -->
+        <div style="overflow-y: auto; height: calc(100% - 50px)">
+          <slot></slot>
         </div>
-        
+
+        <div class="bottom-nav">
+          <router-link to="/home" class="button mx-auto" style="color: black"
+            ><i class="bi bi-house"></i
+          ></router-link>
+          <router-link to="/group" class="button mx-auto" style="color: black"
+            ><i class="bi bi-search-heart"></i
+          ></router-link>
+          <router-link to="/ride" class="button mx-auto" style="color: black"
+            ><i class="bi bi-ticket-perforated"></i
+          ></router-link>
+          <router-link
+            to="/mission"
+            class="button mx-auto"
+            style="color: black"
+          >
+            <i class="bi bi-gift"></i
+          ></router-link>
+        </div>
       </div>
     </div>
+  </div>
   <!-- </div> -->
 </template>
 
 <script>
-
-
 export default {
   name: "MobileTemplate",
   // other options
@@ -75,7 +83,6 @@ h2 {
   background-color: white;
   padding: 18px 5px;
   margin-top: gray;
-
 }
 
 .bottom-nav button {
@@ -87,7 +94,6 @@ h2 {
   color: white;
   text-transform: uppercase;
   padding: 30px;
-
 }
 
 .bottom-nav a {
@@ -98,5 +104,4 @@ h2 {
 .bottom-nav button:active {
   color: #7f7f7f; /* change color when clicked */
 }
-
 </style>

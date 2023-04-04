@@ -53,7 +53,7 @@
     <!-- Pop up message: join successful -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showSuccess">
             <p class="notification-title d-flex justify-content-center align-items-center fw-bolder text-success" style="font-size:MEDIUM">Challenge Accepted! &nbsp; <span style="font-size: x-large">🤠</span></p>
-            <button @click="showSuccess= false; $router.push('/challenge')" type="button" class="btn btn-sm btn-close d-flex justify-content-right m-1" aria-label="Close"></button>
+            <button @click="showSuccess= false; $router.go()" type="button" class="btn btn-sm btn-close d-flex justify-content-right m-1" aria-label="Close"></button>
             <hr>
             <p class="text-center" style="font-size:small;" >You have been enrolled into the challenge. All the best! </p>
         </div>
@@ -101,7 +101,6 @@ export default {
         this.getChallenges();
         this.getMissions();
         this.showSuccess = true;
-        this.$router.go()
         console.log(response.data.data);
       }).catch((error) => {
         console.log(error);

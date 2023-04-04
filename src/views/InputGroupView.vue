@@ -31,7 +31,7 @@
       </div>
       <!-- Pop-up upon confirmation-->
       <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showNotification">
-        <p class="notification-title d-flex justify-content-center" style="color: #38b000; font-size:large; font-weight:900;">
+        <p class="notification-title d-flex justify-content-center align-items-center" style="color: #38b000; font-size:medium; font-weight:700;">
           SUCCESS! &nbsp;<span style="font-size: x-large">🤠</span>
         </p>
         <button @click="showNotification = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>

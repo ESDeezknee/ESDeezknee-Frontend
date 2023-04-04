@@ -25,7 +25,7 @@
               <span style="font-size:x-small;"><strong>Code:</strong> {{ redemption.redemption_code }}</span><br>
               <span v-if="redemption.status === 'Claimed'" style="font-size:x-small;"><strong>Redemption Date:</strong> {{
                 new Date(redemption.redemption_date).toLocaleString() }}</span>
-              <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; vertical-align: middle;"
+              <img :src="redemption.reward.image_url" alt="Image" style="height: 100px; width: 100%; vertical-align: middle;"
                 class="mt-2 col-md-12 text-center rounded-2"><br>
             </div>
           </div>
@@ -69,18 +69,18 @@ export default {
     this.getRedemptions();
   },
   methods: {
-    getRewards() {
+    async getRewards() {
       const apiUrl = "http://127.0.0.1:6303/reward/active";
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         this.rewards = response.data.data.rewards;
         // console.log(response.data.data);
       }).catch((error) => {
         console.log(error);
       });
     },
-    getRedemptions() {
+    async getRedemptions() {
       const apiUrl = "http://127.0.0.1:6304/redemption/account/" + this.accountStore.account.account_id;
-      axios.get(apiUrl).then((response) => {
+      await axios.get(apiUrl).then((response) => {
         const redemptions = response.data.data.redemptions;
 
         const redemptionsWithRewards = redemptions.map((redemption) => {

@@ -47,7 +47,7 @@
 
     <!-- Pop up message: join failure  -->
     <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showFailure">
-      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR &nbsp;<span style="font-size: x-large">😔</span></p>
+      <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp; 😔</p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
       <p class="text-center" style="font-size:small;" >Failed to join group, please try again!</p>

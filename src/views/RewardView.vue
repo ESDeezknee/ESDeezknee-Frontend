@@ -49,7 +49,7 @@ L
      </div>
 
      <div class="notification-box position-absolute top-50 start-20" id="notification-box" v-if="showError">
-            <p class="notification-title d-flex justify-content-center align-items-center fw-bolder text-danger" style="font-size:MEDIUM">Error Occured &nbsp;<span style="font-size: x-large">😢</span></p>
+            <p class="notification-title d-flex justify-content-center align-items-center fw-bolder text-danger" style="font-size:MEDIUM">ERROR! &nbsp;😔</p>
             <button @click="showError= false; $router.push('/reward')" type="button" class="btn btn-sm btn-close d-flex justify-content-right m-1" aria-label="Close"></button>
             <hr>
             <p class="text-center" style="font-size:small;" >{{ errorMessage}}</p>
