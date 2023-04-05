@@ -34,11 +34,7 @@
       >
         AWESOME! &nbsp;😊
       </p>
-      <button
-        @click="
-          showSuccess = false;
-          $router.push('/ride');
-        "
+      <button @click="showSuccess = false; $router.push('/home');"
         type="button"
         class="btn-close d-flex justify-content-right"
         aria-label="Close"

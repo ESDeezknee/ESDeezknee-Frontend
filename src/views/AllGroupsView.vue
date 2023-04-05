@@ -31,10 +31,10 @@
 
     </div>
 
-    <router-link to="/group" class="btn fw-semibold mb-2 w-100"
+    <router-link to="/home" class="btn fw-semibold mb-2 w-100"
       style="color: rgb(2 132 199); border: 1px solid #ccc; font-size:x-small"
       onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='#fff';">
-      Return to Group
+      Return to Home
     </router-link>
 
     <!-- Pop up message: join successful  -->
@@ -50,7 +50,7 @@
       <p class="notification-title d-flex justify-content-center fw-bolder" style="font-size:medium; color:#dc3545">ERROR! &nbsp; 😔</p>
       <button @click="showFailure = false" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >Failed to join group, please try again!</p>
+      <p class="text-center" style="font-size:small;">{{fail_msg}}</p>
     </div>
   </MobileTemplate>
 </template>
@@ -77,7 +77,8 @@ export default {
       showFailure: false,
       showSuccess: false,
       message: '',
-      broadcast_joined: false
+      broadcast_joined: false,
+      fail_msg: ''
     }
   },
   setup() {
@@ -123,19 +124,24 @@ export default {
       axios.post(url, data)
         .then(response => {
           console.log(response.data);
-          if (response.data.code === 200) {
+
+          if(response.data.code === 500){
+            this.showFailure = true;
+            this.fail_msg = response.data.data.message;
+    
+          }else if(response.data.code === 200){
             this.showSuccess = true;
             this.message = response.data.message;
             this.broadcast_joined = true;
-    
-          }else if(response.data.code === 500){
-            this.showFailure = true;
           }
       
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.request.responseText);
+          console.log(JSON.parse(error.request.responseText).data.message)
+          this.fail_msg = JSON.parse(error.request.responseText).data.message;
           this.showFailure = true;
+        
         });
     }
   }
