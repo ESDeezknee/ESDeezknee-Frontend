@@ -20,7 +20,7 @@
             <form>
               <div class="mb-3" style="font-size:small">
                 <label for="lf_pax" class="col col-form-label">Looking For:</label>
-                <input type="number" class="form-control" id="lf_pax" v-model="lf_pax" ref="lf_pax"
+                <input type="number" class="form-control" id="lf_pax" v-model.number=lf_pax min=1 ref="lf_pax"
                 placeholder="how many pals?">
               </div>
   
@@ -104,20 +104,26 @@ export default {
               console.log(this.date_of_visit)
               this.showSuccess= false;
               // this.showFailure = false;
+              if(this.lf_pax <= 0){
+                errorMsg += "Number of pax must be at least 1. "
+              }
 
               if(this.lf_pax == "" && !this.date_of_visit){
-                errorMsg = "Please enter number of pax & date of visit!"
+                errorMsg += "Please enter number of pax & date of visit! "
                 // this.showFailure = true;
               }
-              else if(this.date_of_visit == ""){
-                  errorMsg = "Please enter date of visit!"
+              else {
+                if(this.date_of_visit == ""){
+                  errorMsg += "Please enter date of visit! "
                   // this.showFailure = true;
-              }
-              else if(this.lf_pax == ""){
-                  errorMsg = "Please enter number of pax!"
+                }
+                if(this.lf_pax == ""){
+                  errorMsg += "Please enter number of pax! "
                   // this.showFailure = true;
+                }
               }
-              else{
+
+              if(errorMsg == ""){
                 // this.groupID = response.data.data.group_obj.grouping_id;
                 this.showSuccess = true;
               }
@@ -137,6 +143,7 @@ export default {
 }
 
 </script>
+
 
 
 <style>

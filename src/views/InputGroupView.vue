@@ -17,7 +17,7 @@
           <form>
             <div class="mb-3" style="font-size:small">
               <label for="pax" class="col col-form-label">Number of pax:</label>
-              <input type="number" class="form-control" id="no_of_pax" v-model="number_of_pax" ref="paxInput">
+              <input type="number" class="form-control" id="no_of_pax" v-model.number=number_of_pax min=1 ref="paxInput">
             </div>
             <div class="mb-3" style="font-size:small;">
               <label for="description" class="col form-label">Description:</label>
@@ -83,61 +83,61 @@ export default {
 
     return { accountStore };
   },
-  async created() {
-    this.createGroup();
-  },
   methods: {
     createGroup(group_id) {
       const no_of_pax = document.getElementById("no_of_pax").value;
       const description = document.getElementById("description").value;
       let errorMsg = "";
 
-      const body = {
-        list_account: [this.accountStore.account.account_id],
-        no_of_pax: no_of_pax,
-        description: description,
-        status: "Started",
+      if(Number(no_of_pax) <= 0){
+        errorMsg += "Number of pax must be at least 1. ";
       }
-      
-      axios.post("http://127.0.0.1:8000/api/v1/handleGroup/create", body)
-        .then((response) => {
-          console.log(this.no_of_pax)
-          console.log(this.description)
-          this.showNotification = false;
 
-          if(this.description == "" && !this.no_of_pax){
-            errorMsg = "Please enter number of pax & description!"
-          }
-          else if(this.description == ""){
-            errorMsg = "Please enter description!"
-          }
-          else if(this.no_of_pax == ""){
-            errorMsg = "Please enter number of pax!"
-          }
-          else{
+      if(description == ""){
+        errorMsg += "Please enter description. ";
+      }
+
+      if(no_of_pax == ""){
+        errorMsg += "Please enter number of pax. ";
+      }
+
+      if(errorMsg != ""){
+        this.errorMsg = errorMsg.trim();
+        let temp = document.getElementById("errorMsg");
+        temp.innerHTML = this.errorMsg;
+        temp.classList.add("alert");
+        temp.classList.add("alert-danger");
+      }
+      else{
+        const body = {
+          list_account: [this.accountStore.account.account_id],
+          no_of_pax: no_of_pax,
+          description: description,
+          status: "Started",
+        };
+
+        axios.post("http://127.0.0.1:8000/api/v1/handleGroup/create", body)
+          .then((response) => {
+            console.log(this.no_of_pax)
+            console.log(this.description)
+            this.showNotification = false;
             this.groupID = response.data.data.group_obj.grouping_id;
             this.showNotification = true;
             this.accountStore.createGroup(
               this.groupID
             );
             // this.$store.dispatch('updateGroupID', this.groupID);
-          }
-
-          let temp = document.getElementById("errorMsg")
-          temp.innerHTML = errorMsg
-          if(errorMsg != ""){
-            temp.classList.add("alert")
-            temp.classList.add("alert-danger")
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        });
+          })
+          .catch((error) => {
+            console.log(error)
+          });
+      }
     }
   }
 }
 </script>
-  
+
+
   
   <style>
   .form-control {

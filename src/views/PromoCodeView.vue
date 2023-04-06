@@ -37,7 +37,7 @@
       <p class="notification-title d-flex justify-content-center fw-bolder" style="color: #38b000; font-size:MEDIUM">SUCCESS! &nbsp;🤩</p>
       <button @click="showSuccess = false; ; $router.push('/queue-ticket')" type="button" class="btn-close d-flex justify-content-right " aria-label="Close"></button>
       <hr>
-      <p class="text-center" style="font-size:small;" >{{pass_message}}</p>
+      <p class="text-center" style="font-size:small;" >{{pass_message}}.</p>
     </div>
 
     <!-- Pop up message: join failure  -->
@@ -122,9 +122,15 @@ export default {
 
             )
             .catch(error => {
-                console.log(error);
-                this.fail_message = "Failed to redeem promo code. Please try again."
+                // console.log(error);
+                const err = error.request.responseText
+                console.log(err)
+                const parsedErr = JSON.parse(err);
+                const errorMessage = parsedErr.message;
+                console.log(errorMessage);
                 this.showFailure = true
+                this.fail_message = errorMessage
+
 
             });
         },
